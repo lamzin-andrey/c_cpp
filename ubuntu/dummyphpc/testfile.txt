@@ -276,23 +276,23 @@ long strposo(char* haystack, char* needle, ULONG offset) {
 	char ch;
 	ULONG slen = strlen(haystack), sslen = strlen(needle);
 	long res = -1;
+	char* buf = "";	
 
 	int L = 0;
+	buf = "";
 	for (i = offset; i < slen; i++) {
 		ch = haystack[i];
-		char ds[2];
-		ds[0] = ch;
-		ds[1] = 0;
 		
 		if (ch == needle[j]) {
 			if (j == 0) {
-				res = (long)i;
+				res = (long)j;
 			}
 			++j;
 			if (j >= sslen) {
 				return res;
 			}
 		} else {
+			buf = addchar(buf, ch);
 			j = 0;
 			res = -1;
 		}

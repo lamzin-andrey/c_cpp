@@ -1,5 +1,68 @@
 #include "dphpc.h"
 
+BOOL file_exists(char* filename) {
+  /*FILE* f = fopen(filename, "r");
+  if (!f) {
+    return false;
+  }
+  fclose(f);
+  return true;*/
+
+  ksys_time_t t;
+  t.hour = 10;
+  t.min = 10;
+  t.sec = 10;
+  t._zero = 0;
+
+  /*typedef union {
+    uint32_t val;
+    struct {
+        uint8_t year;
+        uint8_t month;
+        uint8_t day;
+        uint8_t _zero;
+    };
+  } ksys_date_t;*/
+
+  ksys_date_t d;
+  d.year = 2000;
+  d.month = 1;
+  d.day = 1;
+  d._zero = 0;
+
+
+  /*typedef struct {
+    uint32_t attributes;
+    uint32_t name_cp;
+    ksys_time_t creation_time;
+    ksys_date_t creation_date;
+    ksys_time_t last_access_time;
+    ksys_date_t last_access_date;
+    ksys_time_t last_modification_time;
+    ksys_date_t last_modification_date;
+    uint64_t size;
+    char name[0];
+  } ksys_bdfe_t;*/
+
+
+
+  ksys_bdfe_t bdfe;
+  /*bdfe.attributes = 0; // Ш
+  bdfe.name_cp = 0;    // Ш
+  //bdfe.name = '1';    // Ш
+  bdfe.creation_time = t;
+  bdfe.creation_date = d;
+  bdfe.last_access_time = t;
+  bdfe.last_access_date = d;
+  bdfe.last_modification_date = d;
+  bdfe.last_modification_time = t;*/
+
+  int status = _ksys_file_info(filename, &bdfe);
+
+  // printf("status = %d", status);
+  return status != 5; // ≈сли файла нет вернет 5, если есть 0
+}
+
 char* addchar(char* s, char ch) {
 	char *r = NULL;
 	char ns[2];
@@ -9,7 +72,7 @@ char* addchar(char* s, char ch) {
 	r = malloc(nsz);
 	strcpy(r, s);
 	strcat(r, ns);
-	
+
 	return r;
 }
 
@@ -19,7 +82,7 @@ char* addstr(char* s, char* s2) {
 	r = malloc(nsz);
 	strcpy(r, s);
 	strcat(r, s2);
-	
+
 	return r;
 }
 
@@ -30,7 +93,7 @@ char* date(char* fmt) {
 char* datets(char* fmt, ULONG ts) {
 	time_t t;
 	struct tm* now;
-	
+
 	if (0 == ts) {
 		t = time(0);   // get time now
 		now = localtime(&t);
@@ -38,7 +101,7 @@ char* datets(char* fmt, ULONG ts) {
 		const time_t rawtime = (const time_t)ts;
 		now = localtime(&rawtime);
 	}
-    
+
 	char* o = "HelloworldHelloWorld";
 	char* sY = "0123";
 	sY = "";
@@ -89,7 +152,7 @@ char* datets(char* fmt, ULONG ts) {
 				o = addchar(o, c);
 		}
 	}
-	
+
 	return o;
 }
 
@@ -116,14 +179,14 @@ char** explode(char* sep, char* s, int* length) {
 	char ch;
 	int slen = strlen(s), sslen = strlen(sep);
 	char** res;
-	char* buf = "";	
+	char* buf = "";
 	char* buf2 = "";
 
 	int L = 0;
 	buf = "";
 	for (i = 0; i < slen; i++) {
 		ch = s[i];
-		
+
 		if (ch == sep[j]) {
 			++j;
 			if (j >= sslen) {
@@ -137,17 +200,17 @@ char** explode(char* sep, char* s, int* length) {
 			}
 		} else {
 		  if( strlen(buf2)  > 0){
-		    buf = addstr(buf, buf2); 
+		    buf = addstr(buf, buf2);
 		    buf2 = "";
 		  }
 			buf = addchar(buf, ch);
 			j = 0;
 		}
 	}
-	
+
 	res = push(res, buf, L);
 	L++;
-	
+
 	*length = L;
 	return res;
 }
@@ -165,7 +228,7 @@ int file_put_contentsa(char* file, char* data, int mode) {
 	if (FILE_APPEND == mode) {
 		return writefile(file, data, true);
 	}
-	
+
 	return writefile(file, data, false);
 }
 
@@ -184,14 +247,14 @@ char** push(char** r, char* s, int L) {
 		ssz += strlen(r[i]) + 1;
 	}
 	ssz += strlen(s) + 1;
-	
+
 	result = malloc(2 * ssz);
-	
+
 	for (j = 0; j < L; j++) {
 		result[j] = r[j];
 	}
-	
-	
+
+
 	result[j] = s;
 	return result;
 }
@@ -208,7 +271,7 @@ char* str_replace(char* search, char* replace, char* subject) {
 char* str_replacec(char* search, char* replace, char* subject, int* count) {
 	*count = 0;
 	int _count = 0;
-	
+
 	int i, sptr = 0;
 	char* buf = "";
 	char* result = "";
@@ -253,7 +316,7 @@ char* str_replacec(char* search, char* replace, char* subject, int* count) {
 			}
 		}
 	}
-	
+
 	*count = _count;
 	return result;
 }
@@ -262,7 +325,7 @@ char* strval(int n) {
 	char* result = NULL;
 	result = malloc(255);
 	intToStr(n, result, false);
-	
+
 	return result;
 }
 
@@ -271,32 +334,46 @@ long strpos(char* haystack, char* needle) {
 }
 
 long strposo(char* haystack, char* needle, ULONG offset) {
+    //printf("hay = `%s`, nedle = `%s`, offset = `%ld`\n", haystack, needle, offset);
 	ULONG i;
 	ULONG j = 0;
 	char ch;
 	ULONG slen = strlen(haystack), sslen = strlen(needle);
 	long res = -1;
+	char* buf = "";
+
+	char dCh[2];
 
 	int L = 0;
+	buf = "";
 	for (i = offset; i < slen; i++) {
 		ch = haystack[i];
-		char ds[2];
-		ds[0] = ch;
-		ds[1] = 0;
-		
+		dCh[0] = ch;
+		dCh[1] = '\0';
+		//printf("process i = %d, dCh = `%s`\n", i, dCh);
+
 		if (ch == needle[j]) {
+			//puts("ch == needle[j]\n");
 			if (j == 0) {
 				res = (long)i;
 			}
 			++j;
 			if (j >= sslen) {
+				//puts("j >= sslen/в");
 				return res;
 			}
 		} else {
+			buf = addchar(buf, ch);
 			j = 0;
 			res = -1;
+			//printf("res = -1, j = 0, mod buf: `%s`\n", buf);
 		}
 	}
-	
-	return res;	
+
+	return res;
+}
+
+
+void sleep(int seconds) {
+	_ksys_delay(seconds * 100);
 }
