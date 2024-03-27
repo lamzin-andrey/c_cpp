@@ -28,12 +28,10 @@ char* readfile(char *filename) {
 
 	f = fopen(filename, "r");
 	while (NULL != rdResult && EOF != feof(f)){
-		// puts("do gets\n");
 		for (ULONG i = 0; i < bufSize; i++) {
 		   buf[i] = '\0';
 	 	}
 		rdResult = fgets(buf, bufSize, f);
-		// printf("buf = `%s`\n", buf);
 
 		char *tempR = NULL;
 		int ssz = strlen(r) + strlen(buf) + 1;
@@ -43,7 +41,6 @@ char* readfile(char *filename) {
 		r = tempR;
 
 	}
-	fclose(f);
 
 	return r;
 }

@@ -166,6 +166,32 @@ void logInt(char* file, char* prefix, int n) {
 	writefile(file, sl, true);
 }
 
+void logFloat(char* file, char* prefix, double n) {
+	char sl[255];
+	for (int i = 0; i < 255; i++) {
+		sl[i] = 0;
+	}
+	//intToStr(n, sl, true);
+	sprintf(sl, "%f", n);
+	ULONG sz = strlen(sl);
+	if (sz < 255) {
+		sl[sz] = '\n';
+	}
+
+	writefile(file, prefix, true);
+	writefile(file, sl, true);
+}
+
+void logStr(char* file, char* prefix, char* str) {
+	char* r = malloc(strlen(prefix) + strlen(str) + 1);
+	r = addstr(r, prefix);
+	r = addstr(r, str);
+	r = addchar(r, '\n');
+
+	writefile(file, r, true);
+}
+
+
 void intToStr(int n, char* sL, BOOL newLine) {
 	sprintf(sL, "%d", n);
 	ULONG sz = strlen(sL);
@@ -173,6 +199,7 @@ void intToStr(int n, char* sL, BOOL newLine) {
 		sL[sz] = '\n';
 	}
 }
+
 
 char** explode(char* sep, char* s, int* length) {
 	int i, j = 0;
@@ -226,7 +253,9 @@ int file_put_contents(char* file, char* data) {
 
 int file_put_contentsa(char* file, char* data, int mode) {
 	if (FILE_APPEND == mode) {
-		return writefile(file, data, true);
+		if (file_exists(file)) {
+			return writefile(file, data, true);
+		}
 	}
 
 	return writefile(file, data, false);
@@ -355,12 +384,12 @@ long strposo(char* haystack, char* needle, ULONG offset) {
 		if (ch == needle[j]) {
 			//puts("ch == needle[j]\n");
 			if (j == 0) {
-				res = (long)i;
+				res = (long)j;
 			}
 			++j;
 			if (j >= sslen) {
 				//puts("j >= sslen/â");
-				return res;
+				return i;
 			}
 		} else {
 			buf = addchar(buf, ch);
@@ -371,9 +400,4 @@ long strposo(char* haystack, char* needle, ULONG offset) {
 	}
 
 	return res;
-}
-
-
-void sleep(int seconds) {
-	_ksys_delay(seconds * 100);
 }

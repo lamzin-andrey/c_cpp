@@ -28,4 +28,5 @@ char* addchar(char* s, char ch);
 char* addstr(char* s, char* s2);
 void intToStr(int n, char* sL, BOOL newLine);
 void logInt(char* file, char* prefix, int n);
-void sleep(int seconds);
+void logFloat(char* file, char* prefix, double n);
+void logStr(char* file, char* prefix, char* str);
