@@ -216,3 +216,50 @@ StaticText* lldLabel(char* id, char* val, UINT x, UINT y, UINT bgColor, UINT col
 StaticText* lldLabelB(char* id, char* val, UINT x, UINT y, UINT bgColor, UINT color, UINT borderColor, UINT borderWidth) {
 	return lldTextPBC(id, val, x, y, 10, borderColor, borderWidth, bgColor, color);
 }
+
+LLDButton* lldButtonC(char* id, char* text, UINT x, UINT y, UINT bgColor, UINT color) {
+  LLDO_ITERATOR++;
+  if (LLDO_ITERATOR >= DISPLAY_OBJ_SZ) {
+    return NULL;
+  }
+
+  UINT h = 10;
+  UINT w = 6 * strlen(text);
+
+  LLDO_TYPES[LLDO_ITERATOR] = "btn";
+
+  LLDO_BTN[LLDO_ITERATOR].id = (char*)id;
+  LLDO_BTN[LLDO_ITERATOR].w = w;
+  LLDO_BTN[LLDO_ITERATOR].x = x;
+  LLDO_BTN[LLDO_ITERATOR].y = y;
+  LLDO_BTN[LLDO_ITERATOR].bgColor = bgColor;
+  LLDO_BTN[LLDO_ITERATOR].color = color;
+  LLDO_BTN[LLDO_ITERATOR].savedColor = color;
+  LLDO_BTN[LLDO_ITERATOR].text = text;
+  LLDO_BTN[LLDO_ITERATOR].h = h;
+  LLDO_BTN[LLDO_ITERATOR].tabIndex = -1;
+  LLDO_BTN[LLDO_ITERATOR].fontType = FONT_TYPE10;
+  LLDO_BTN[LLDO_ITERATOR].intId = LLDO_ITERATOR;
+
+  return &LLDO_BTN[LLDO_ITERATOR];
+}
+
+LLDButton* lldButton(char* id, char* text, UINT x, UINT y) {
+	return lldButtonC(id, text, x, y, LLDI_DEFAULT_BG_COLOR, 0x000000);
+}
+
+LLDButton* lldGreenButton(char* id, char* text, UINT x, UINT y) {
+	return lldButtonC(id, text, x, y, 0x00AA00, 0xFFFFFF);
+}
+
+LLDButton* lldBlueButton(char* id, char* text, UINT x, UINT y) {
+	return lldButtonC(id, text, x, y, 0x0000AA, 0xFFFFFF);
+}
+
+LLDButton* lldRedButton(char* id, char* text, UINT x, UINT y) {
+	return lldButtonC(id, text, x, y, 0xAA0000, 0xFFFFFF);
+}
+
+LLDButton* lldPrimaryButton(char* id, char* text, UINT x, UINT y) {
+	return lldButtonC(id, text, x, y, 0x0069D9, 0xFFFFFF);
+}

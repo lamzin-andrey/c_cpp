@@ -4,11 +4,11 @@
 #include "plldsyscontroller.c"
 
 void onKeyPress(char* id, uint32_t code);
-void onLeftMouseDown(char* id, UINT mX, UINT mY);
-void onRightMouseDown(char* id, UINT mX, UINT mY);
-void onClick(char* id, UINT mX, UINT mY);
-void onRightClick(char* id, UINT mX, UINT mY);
-void onMouseMove(char* id, UINT mX, UINT mY);
+void onLeftMouseDown(char* id, UINT mX, UINT mY, UINT btnId);
+void onRightMouseDown(char* id, UINT mX, UINT mY, UINT btnId);
+void onClick(char* id, UINT mX, UINT mY, UINT btnId);
+void onRightClick(char* id, UINT mX, UINT mY, UINT btnId);
+void onMouseMove(char* id, UINT mX, UINT mY, UINT btnId);
 
 void lld_sys_render(edit_box* ed, check_box output_off, char* ed_buff, char* title) {
 
@@ -41,22 +41,28 @@ void lld_sys_render(edit_box* ed, check_box output_off, char* ed_buff, char* tit
         StaticText t = LLDO_TEXT[i];
         landDrawStaticText(t);
       }
+      if (0 == strcmp("btn", type)) {
+        LLDButton b = LLDO_BTN[i];
+        landDrawButton(b);
+      }
     }
 
 }
 
 
-void lldSysOnMouseEvent()
+void lldSysOnMouseEvent(UINT pressed_button)
 {
 	ksys_pos_t mouse_pos;
 	uint32_t mouse_button;
 	mouse_pos = _ksys_get_mouse_pos(KSYS_MOUSE_WINDOW_POS); // window relative
 	mouse_button = _ksys_get_mouse_eventstate();
 
+
 	UINT mX = (UINT)mouse_pos.x;
 	UINT mY = (UINT)mouse_pos.y;
+	long btnId = -1;
 	char mouseBtn = (char)mouse_button;
-	char* id = getIdByMousePos(mX, mY);
+	char* id = getIdByMousePos(mX, mY, &btnId);
 
 
 	if (mouse_button & (1 << 24)) // double click
@@ -76,26 +82,26 @@ void lldSysOnMouseEvent()
     }
 
     if (1 == mouseBtn) {
-    	onLeftMouseDown(id, mX, mY);
+    	onLeftMouseDown(id, mX, mY, pressed_button);
     	prevMouseBtn = 1;
     }
 
     if (2 == mouseBtn) {
-    	onRightMouseDown(id, mX, mY);
+    	onRightMouseDown(id, mX, mY, pressed_button);
     	prevMouseBtn = 2;
     }
 
     if (0 == mouseBtn) {
     	if (1 == prevMouseBtn) {
-    		onClick(id, mX, mY);
+    		onClick(id, mX, mY, pressed_button);
     	}
     	if (2 == prevMouseBtn) {
-    		onRightClick(id, mX, mY);
+    		onRightClick(id, mX, mY, pressed_button);
     	}
     	prevMouseBtn = 0;
     }
     if (prevMX != mX || prevMY != mY) {
-    	onMouseMove(id, mX, mY);
+    	onMouseMove(id, mX, mY, btnId);
     	prevMX = mX;
     	prevMY = mY;
     }

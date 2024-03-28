@@ -63,12 +63,28 @@ typedef struct StaticText{
   UINT savedColor;
 } StaticText;
 
+typedef struct LLDButton{
+  char* id;
+  UINT intId;
+  UINT x;
+  UINT y;
+  UINT w;
+  UINT h;
+  UINT bgColor;
+  UINT color;
+  char* text;
+  char tabIndex;
+  UINT fontType;
+  UINT savedColor;
+} LLDButton;
+
 
 char*        LLDO_TYPES[DISPLAY_OBJ_SZ];
 Itext        LLDO_INP_TEXT[DISPLAY_OBJ_SZ];
 Icheckbox    LLDO_CHB[DISPLAY_OBJ_SZ];
 Img          LLDO_IMG[DISPLAY_OBJ_SZ];
 StaticText   LLDO_TEXT[DISPLAY_OBJ_SZ];
+LLDButton    LLDO_BTN[DISPLAY_OBJ_SZ];
 long         LLDO_ITERATOR = -1;
 
 char prevMouseBtn = 0;

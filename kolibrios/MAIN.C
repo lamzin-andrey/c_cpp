@@ -27,6 +27,8 @@
 ksys_thread_t proc_info;
 
 uint32_t wheels;
+uint32_t pressed_button;
+
 char* title = "Boxlib example";
 char ed_buff[ED_BUFF_LEN];
 
@@ -77,9 +79,11 @@ int main()
     init_checkbox2(&output_off);
     _ksys_set_event_mask(KSYS_EVM_REDRAW + KSYS_EVM_KEY + KSYS_EVM_BUTTON + KSYS_EVM_MOUSE + KSYS_EVM_MOUSE_FILTER);
     while (1) {
+
         switch (_ksys_get_event()) {
         case KSYS_EVENT_BUTTON:
-            if (_ksys_get_button() == 1)
+        	pressed_button = _ksys_get_button();
+            if (pressed_button == 1)
                 return 0;
             break;
 
@@ -101,7 +105,7 @@ int main()
 
             edit_box_mouse(&ed);
 
-            lldSysOnMouseEvent(); // My TODO mouse params see basic gui
+            lldSysOnMouseEvent(pressed_button); // My TODO mouse params see basic gui
 
             scrollbar_v_mouse(&scroll);
             pg.value = scroll.position;

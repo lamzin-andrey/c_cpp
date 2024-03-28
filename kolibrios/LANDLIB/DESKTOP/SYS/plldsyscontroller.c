@@ -1,6 +1,7 @@
 // "Private" functions
-char* getIdByMousePos(UINT mX, UINT mY) {
+char* getIdByMousePos(UINT mX, UINT mY, long* btnId) {
 	UINT i, x, y, w, h;
+	long intId;
 	for (i = 0; i <= LLDO_ITERATOR; i++) {
 		char* type = LLDO_TYPES[i];
 		char* id = "";
@@ -45,9 +46,21 @@ char* getIdByMousePos(UINT mX, UINT mY) {
 			elFound = 1;
 		}
 
+		if (0 == strcmp("btn", type)) {
+			LLDButton b = LLDO_BTN[i];
+			id = addstr(id, b.id);
+			x = b.x;
+			y = b.y;
+			w = b.w + 24;
+			h = b.h;
+			elFound = 1;
+			intId = b.intId;
+		}
+
 		if (elFound == 1) {
 			if (mX >= x && mX <= (x + w)) {
 				if (mY >= y && mY <= (y + h)) {
+					*btnId = intId;
 					return id;
 				}
 			}
@@ -83,5 +96,17 @@ void landDrawStaticText(StaticText t) {
 	}
     _ksys_draw_bar(t.x + t.borderWidth, t.y + t.borderWidth, t.w + (t.padding * 2), t.h + (t.padding * 2), t.bgColor);
 	_ksys_draw_text((const char*)t.text, t.x + t.padding + t.borderWidth, t.y + t.padding + t.borderWidth, strlen(t.text), t.color);
+
+}
+
+
+void landDrawButton(LLDButton b) {
+	b.h = 28;
+	b.color = b.savedColor;
+	b.w = 6 * strlen(b.text) + 24;
+
+    //_ksys_draw_button(t.x + t.borderWidth, t.y + t.borderWidth, t.w + (t.padding * 2), t.h + (t.padding * 2), t.bgColor);
+    _ksys_define_button(b.x, b.y, b.w, b.h, (uint32_t)b.intId, b.bgColor);
+	_ksys_draw_text((const char*)b.text, b.x + 12, b.y + 10, strlen(b.text), b.color);
 
 }
