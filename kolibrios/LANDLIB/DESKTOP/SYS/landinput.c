@@ -1,8 +1,6 @@
 
 #include "landinput.h"
 
-void landButtonA(char id){}
-void landButtonB(int id){}
 
 char* fillEmpStr(char* textContent, int length) {
    char* r = NULL;
@@ -41,10 +39,16 @@ Img* lldImgC(char* id, char* src, UINT x, UINT y, UINT w, UINT alphaColor) {
   LLDO_IMG[LLDO_ITERATOR].x = x;
   LLDO_IMG[LLDO_ITERATOR].y = y;
   LLDO_IMG[LLDO_ITERATOR].w = w;
-  LLDO_IMG[LLDO_ITERATOR].tabIndex = -1;
   LLDO_IMG[LLDO_ITERATOR].src = (char*)src;
   setAlphaColor(alphaColor);
   Image* img = landImgFind(src);
+
+  LLDO_IMG[LLDO_ITERATOR].tabSupport = 0;
+  if (TabIndexDefaultMode > 0) {
+    LLDO_TAB_INDEX++;
+  	LLDO_IMG[LLDO_ITERATOR].tabIndex = LLDO_TAB_INDEX;
+  	LLDO_IMG[LLDO_ITERATOR].tabSupport = 1;
+  }
 
 
   if (img) {
@@ -60,7 +64,6 @@ Img* lldImgC(char* id, char* src, UINT x, UINT y, UINT w, UINT alphaColor) {
   	LLDO_IMG[LLDO_ITERATOR].h = 0;
   }
   LLDO_IMG[LLDO_ITERATOR].alphaColor = alphaColor;
-  LLDO_IMG[LLDO_ITERATOR].tabSupport = 0;
   LLDO_TYPES[LLDO_ITERATOR] = "img";
 
   return &LLDO_IMG[LLDO_ITERATOR];
@@ -91,17 +94,14 @@ void lldICheckboxC(char* id, UINT x, UINT y, char* label, UINT  bgColor, UINT co
   LLDO_CHB[LLDO_ITERATOR].id = (char*)id;
   LLDO_CHB[LLDO_ITERATOR].x = x;
   LLDO_CHB[LLDO_ITERATOR].y = y;
-  LLDO_CHB[LLDO_ITERATOR].w = 15;
-  LLDO_CHB[LLDO_ITERATOR].h = 15;
-  LLDO_CHB[LLDO_ITERATOR].checkbox.left_s = X_W(x, 15);
-  LLDO_CHB[LLDO_ITERATOR].checkbox.top_s = Y_H(y, 15);
-  LLDO_CHB[LLDO_ITERATOR].checkbox.ch_text_margin = 10;
-  LLDO_CHB[LLDO_ITERATOR].checkbox.color = 0xFFFFFF;
-  LLDO_CHB[LLDO_ITERATOR].checkbox.border_color = 0x0000FF;
-  LLDO_CHB[LLDO_ITERATOR].checkbox.text_color = sysTextColor | TEXT_SIZE;
-  LLDO_CHB[LLDO_ITERATOR].checkbox.text = textContent;
-  LLDO_CHB[LLDO_ITERATOR].checkbox.flags = 0;
-  LLDO_CHB[LLDO_ITERATOR].tabIndex = -1;
+  LLDO_CHB[LLDO_ITERATOR].h = 13;
+  LLDO_CHB[LLDO_ITERATOR].wI = 13;
+  LLDO_CHB[LLDO_ITERATOR].state = 0;
+  LLDO_CHB[LLDO_ITERATOR].label = textContent;
+  LLDO_CHB[LLDO_ITERATOR].marginRight = 10;
+  LLDO_CHB[LLDO_ITERATOR].w = 13 + 10 + (8 * strlen(textContent));
+  LLDO_TAB_INDEX++;
+  LLDO_CHB[LLDO_ITERATOR].tabIndex = LLDO_TAB_INDEX;
 
   LLDO_TYPES[LLDO_ITERATOR] = "icheckbox";
 
@@ -146,7 +146,9 @@ void lldITextS‘(char* id, UINT x, UINT y, UINT w, UINT h, char* val, UINT  bgCol
   LLDO_INP_TEXT[LLDO_ITERATOR].ebox.mouse_variable = NULL;
   LLDO_INP_TEXT[LLDO_ITERATOR].ebox.flags = 0/*ed_focus*/;
   LLDO_INP_TEXT[LLDO_ITERATOR].ebox.height = h;
-  LLDO_INP_TEXT[LLDO_ITERATOR].tabIndex = -1;
+  LLDO_INP_TEXT[LLDO_ITERATOR].text = val;
+  LLDO_TAB_INDEX++;
+  LLDO_INP_TEXT[LLDO_ITERATOR].tabIndex = LLDO_TAB_INDEX;
 
   if (strlen(val) > 0) {
   	edit_box_set_text(&LLDO_INP_TEXT[LLDO_ITERATOR].ebox, val);
@@ -191,8 +193,12 @@ StaticText* lldTextPBC(char* id, char* val, UINT x, UINT y, char padding, UINT b
   LLDO_TEXT[LLDO_ITERATOR].padding = padding;
   LLDO_TEXT[LLDO_ITERATOR].text = val;
   LLDO_TEXT[LLDO_ITERATOR].h = h;
-  LLDO_TEXT[LLDO_ITERATOR].tabIndex = -1;
   LLDO_TEXT[LLDO_ITERATOR].fontType = FONT_TYPE10;
+
+  if (TabIndexDefaultMode > 2) {
+  	LLDO_TAB_INDEX++;
+  	LLDO_TEXT[LLDO_ITERATOR].tabIndex = LLDO_TAB_INDEX;
+  }
 
   return &LLDO_TEXT[LLDO_ITERATOR];
 }
@@ -223,8 +229,8 @@ LLDButton* lldButtonC(char* id, char* text, UINT x, UINT y, UINT bgColor, UINT c
     return NULL;
   }
 
-  UINT h = 10;
-  UINT w = 6 * strlen(text);
+  UINT h = 28;
+  UINT w = 6 * strlen(text) + 24;
 
   LLDO_TYPES[LLDO_ITERATOR] = "btn";
 
@@ -237,7 +243,8 @@ LLDButton* lldButtonC(char* id, char* text, UINT x, UINT y, UINT bgColor, UINT c
   LLDO_BTN[LLDO_ITERATOR].savedColor = color;
   LLDO_BTN[LLDO_ITERATOR].text = text;
   LLDO_BTN[LLDO_ITERATOR].h = h;
-  LLDO_BTN[LLDO_ITERATOR].tabIndex = -1;
+  LLDO_TAB_INDEX++;
+  LLDO_BTN[LLDO_ITERATOR].tabIndex = LLDO_TAB_INDEX;
   LLDO_BTN[LLDO_ITERATOR].fontType = FONT_TYPE10;
   LLDO_BTN[LLDO_ITERATOR].intId = LLDO_ITERATOR;
 
@@ -262,4 +269,46 @@ LLDButton* lldRedButton(char* id, char* text, UINT x, UINT y) {
 
 LLDButton* lldPrimaryButton(char* id, char* text, UINT x, UINT y) {
 	return lldButtonC(id, text, x, y, 0x0069D9, 0xFFFFFF);
+}
+
+VScroll* lldVScroll(char* id, int x, int h) {  // h = 0 is autosize. h > 0 is vertical size (pixels);
+  LLDO_ITERATOR++;
+  if (LLDO_ITERATOR >= DISPLAY_OBJ_SZ) {
+    return NULL;
+  }
+
+  LLDO_TYPES[LLDO_ITERATOR] = "vscroll";
+
+  LLDO_VSCROLL[LLDO_ITERATOR].id = (char*)id;
+  LLDO_VSCROLL[LLDO_ITERATOR].x = x;
+  LLDO_VSCROLL[LLDO_ITERATOR].h = h;
+  LLDO_VSCROLL[LLDO_ITERATOR].hasNormal = 0;
+  LLDO_VSCROLL[LLDO_ITERATOR].offsetY = 23;
+
+  scrollbar sc = { LLD_SCROLL_WIDTH, 100 - 26, 100 - 29, 0, 0, 2, 215, LLD_SCROLL_WIDTH, 0, 0xEEEEEE, 0xC3D5FD, 0x555555 };
+  LLDO_VSCROLL[LLDO_ITERATOR].sc = sc;
+
+  return &LLDO_VSCROLL[LLDO_ITERATOR];
+}
+//VScroll*   lldVScrollP(char* id, int x, int h); // h is percent
+
+HScroll*   lldHScroll(char* id, int y, int w) {  // h = 0 is autosize. h > 0 is vertical size (pixels);
+  LLDO_ITERATOR++;
+  if (LLDO_ITERATOR >= DISPLAY_OBJ_SZ) {
+    return NULL;
+  }
+
+  LLDO_TYPES[LLDO_ITERATOR] = "hscroll";
+
+  LLDO_HSCROLL[LLDO_ITERATOR].id = (char*)id;
+  LLDO_HSCROLL[LLDO_ITERATOR].y = y;
+  LLDO_HSCROLL[LLDO_ITERATOR].w = w;
+  LLDO_HSCROLL[LLDO_ITERATOR].hasNormal = 0;
+  LLDO_HSCROLL[LLDO_ITERATOR].offsetX = 4;
+
+  scrollbar sc = { LLD_SCROLL_WIDTH, 100 - 26, 100 - 29, 0, 0, 2, 215, LLD_SCROLL_WIDTH, 0, 0xEEEEEE, 0xC3D5FD, 0x555555 };
+  sc.ysize = LLD_SCROLL_WIDTH;
+  LLDO_HSCROLL[LLDO_ITERATOR].sc = sc;
+
+  return &LLDO_HSCROLL[LLDO_ITERATOR];
 }

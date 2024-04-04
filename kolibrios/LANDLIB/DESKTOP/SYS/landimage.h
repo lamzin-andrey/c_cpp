@@ -8,8 +8,8 @@
 
 char*        LLDI_SRC[LLD_IMAGES_SZ];
 Image        LLDI_IMAGES[LLD_IMAGES_SZ];
-long         LLDI_ITERATOR = -1;
-UINT         LLDI_ALPHA_COLOR = 0xD2D0C2;
+inline long         LLDI_ITERATOR = -1;
+inline UINT         LLDI_ALPHA_COLOR = 0xD2D0C2;
 
 char*       logFile = "logImg.txt";
 

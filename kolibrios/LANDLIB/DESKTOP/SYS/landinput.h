@@ -1,9 +1,8 @@
-#include <sys/ksys.h>
-#include <clayer/boxlib.h>
 
 #define TEXT_SIZE 0x10000000
 #define X_W(X, W) ((X << 16) + W)
 #define Y_H X_W
+
 
 
 #include "lldvars.h" // Мои массивы.
@@ -36,3 +35,8 @@ LLDButton* lldRedButton(char* id, char* text, UINT x, UINT y);
 LLDButton* lldBlueButton(char* id, char* text, UINT x, UINT y);
 LLDButton* lldPrimaryButton(char* id, char* text, UINT x, UINT y);
 LLDButton* lldButtonC(char* id, char* text, UINT x, UINT y, UINT bgColor, UINT color);
+
+VScroll*   lldVScroll(char* id, int x, int h);  // h = 0 is autosize. h > 0 is vertical size (pixels);
+//VScroll*   lldVScrollP(char* id, int x, int h); // h is percent
+
+HScroll*   lldHScroll(char* id, int x, int h);  // h = 0 is autosize. h > 0 is vertical size (pixels);
