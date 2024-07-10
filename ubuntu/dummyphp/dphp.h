@@ -8,16 +8,24 @@
 #include <vector>
 #include <ctime>
 
+static vector<string> dphpArgv;
+static int dphpArgc;
 
 
 namespace dphp {
+	void __initRuntime(int argc, char** argv);
+	long count(vector<string> a);
 	string date(string fmt, long ts = 0);
+	void echo(string s);
+	int exec(string cmd, vector<string> &output);
 	//9 for append
 	string file_get_contents(string file);
 	int file_put_contents(string file, string data, int mode = 0);
+	string sys_get_temp_dir();
 	string str_replace(string search, string replace, string subject, int &count);
 	string str_replace(string search, string replace, string subject);
 	string __str_replace(string search, string replace, string subject, int &count);
+	string substr(string s, int start, int length);
 	//TODO can use php.ini в котором может быть строка fgets_buf_size=N
 	string fgets(FILE* f, unsigned int  = 2048);
 	//return -1 if not found

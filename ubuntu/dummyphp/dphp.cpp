@@ -1,5 +1,40 @@
 #include "dphp.h"
 
+void dphp::__initRuntime(int argc, char** argv)
+{
+	dphpArgc = argc;
+	for (int i = 0; i < argc; i++) {
+		dphpArgv.push_back( string(argv[i]) );
+	}
+}
+
+long dphp::count(vector<string> a) {
+	return a.size();
+}
+
+void dphp::echo(string s) {
+	cout << s << "\n";
+}
+int dphp::exec(string cmd, vector<string> &output) {
+	output.clear();
+	string name = dphpArgv[0];
+	vector<string> a = explode("/", name);
+	name = a[count(a) - 1];
+	string out = sys_get_temp_dir() + "/" + name + ".out";
+	cmd = cmd + " > " + out + " 2>" + sys_get_temp_dir() + "/" + name + ".err";
+	system(cmd.c_str());
+	if (file_exists(out)) {
+		string c = file_get_contents(out);
+		a = explode("\n",  c);
+		long sz = count(a);
+		for (long i = 0; i < sz; i++) {
+			output.push_back(a[i]);
+		}
+	}
+	
+	return 0;
+}
+
 bool dphp::file_exists(string filename) {
 	// #include <unistd.h>
 	return ( access( filename.c_str(), F_OK ) != -1 );
@@ -13,6 +48,10 @@ string dphp::file_get_contents(string file) {
 int dphp::file_put_contents(string file, string data, int mode) {
 	UtilsStd Lib;
 	return Lib.write(data, file, mode);
+}
+string dphp::sys_get_temp_dir() {
+	// TODO OS!
+	return "/tmp";
 }
 
 string dphp::date(string fmt, long ts) {
@@ -117,6 +156,11 @@ string dphp::__str_replace(string search, string replace, string subject, int &c
 		}
 	}
 	return result;
+}
+
+string dphp::substr(string s, int start, int length)
+{
+	return s.substr(start, length);
 }
 
 /**
