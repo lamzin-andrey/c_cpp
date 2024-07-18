@@ -1,5 +1,9 @@
 #include "dphp.h"
 
+long crand() {
+	return (long)rand();
+}
+
 void dphp::__initRuntime(int argc, char** argv)
 {
 	dphpArgc = argc;
@@ -8,9 +12,7 @@ void dphp::__initRuntime(int argc, char** argv)
 	}
 }
 
-long dphp::count(vector<string> a) {
-	return a.size();
-}
+
 
 void dphp::echo(string s) {
 	cout << s << "\n";
@@ -104,6 +106,72 @@ string dphp::date(string fmt, long ts) {
 	}
 	return o;
 }
+long dphp::rand(long min, long max){
+	srand((long)time(NULL));
+	return (long)(((double)crand() / RAND_MAX) * (max - min) + min);
+}
+
+
+
+
+
+
+
+
+/*bool dphp::shuffle(vector<int> &a)
+{
+  long SZ, k, j;
+  int b;
+  
+  SZ = count(a) - 1;
+  for(j = 0; j <= SZ; j++){
+	k = dphp::rand(0, SZ);
+	if(k != j){
+	  b = a[j];
+	  a[j] = a[k];
+	  a[k] = b;
+	}
+  }
+  
+  return true;
+}
+
+bool dphp::shuffle(vector<long> &a)
+{
+  long SZ, k, j;
+  long b;
+  
+  SZ = count(a) - 1;
+  for(j = 0; j <= SZ; j++){
+	k = dphp::rand(0, SZ);
+	if(k != j){
+	  b = a[j];
+	  a[j] = a[k];
+	  a[k] = b;
+	}
+  }
+  
+  return true;
+}
+
+bool dphp::shuffle(vector<double> &a)
+{
+  long SZ, k, j;
+  double b;
+  
+  SZ = count(a) - 1;
+  for(j = 0; j <= SZ; j++){
+	k = dphp::rand(0, SZ);
+	if(k != j){
+	  b = a[j];
+	  a[j] = a[k];
+	  a[k] = b;
+	}
+  }
+  
+  return true;
+}*/
+
 string dphp::str_replace(string search, string replace, string subject)
 {
 	int n = 0;
