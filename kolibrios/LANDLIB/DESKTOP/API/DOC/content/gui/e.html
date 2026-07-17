@@ -1,0 +1,221 @@
+<html>
+<head>
+<title>Документация API  - Element e()</title>
+<meta encoding="WINDOWS-1251">
+</head>
+<body >
+
+<h2>Взаимодействие с элементами GUI - Element e().</h2>
+<div id="e">
+  <table width="100%" bgcolor="white" >
+    <tr bgcolor="white">
+      <td >
+        e()
+      </td>
+      <td>
+        Возвращает структуру Element
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <font color="AA0000">Element</font> e(<font color="AA0000">char*</font> id);
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        Аргументы.
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> id
+      </td>
+      <td>
+        Идентификатор элемента.
+        Инпуту присваивается id при создании инпута с помощью функции
+        <font color="AA0000">Element</font> createElementIfNotExists(<font color="AA0000">char*</font> type, <font color="AA0000">char*</font> id);
+        или её сокращенного псевдонима
+        <font color="AA0000">Element</font> cine(<font color="AA0000">char*</font> type, <font color="AA0000">char*</font> id).
+        Также id это первый аргумент всех lld* функций, создающих GUI элементы, таких как lldButton, lldText, lldIText и других.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        Возвращаемое значение.
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">Element</font> element
+      </td>
+      <td>
+        Структура Element определена в Landlib/desktop/sys/lldvars.h<br>
+        Это API задумано так, что при работе с функцией e(id) вас должно интересовать только поле Element.type.
+        Если оно равно строке <font color="0685F8">"undefined"</font>, значит элемент не найден. Другие значения поля type определяют, какие именно свойства вы можете изменять с помощью функций
+         v(), attr() и stl().<br>
+      </td>
+    </tr>
+  </table>
+
+  Описание Element.type.
+
+  <table width="100%" bgcolor="white" >
+    <tr>
+	  <td>type</td>
+	  <td>Что это</td>
+	  <td>Значения для attr()</td>
+	  <td>Значения для stl()</td>
+	</tr>
+	<tr>
+	  <td colspan="4">
+        <hr>
+	  </td>
+	</tr>
+	<tr>
+	  <td>itext</td>
+	  <td>
+	    Текстовое поле ввода.
+	  </td>
+	  <td>
+	    value
+	  </td>
+	  <td>Нет таких</td>
+	</tr>
+	<tr>
+	  <td colspan="4">
+        <hr>
+	  </td>
+	</tr>
+
+	<tr>
+	  <td>text</td>
+	  <td>
+	    Нередактируемый текст.
+	  </td>
+	  <td>
+	    <font color="0685F8">innerText</font>; Лучше использовать функцию<br>v(<font color="0685F8">"id"</font>, <font color="0685F8">"Hello world"</font>);<br>
+	  </td>
+	  <td>
+	    <font color="0685F8">top, left, width, height</font>; Единица измерения только px;<br><br>
+	    <font color="0685F8">background-color</font>;         <font color="0685F8">"#AA0000". "#FFF"</font> не пройдёт, нужно 6 символов.<br><br>
+	    <font color="0685F8">color</font>;                    <font color="0685F8">"#000000" "#FFF"</font> не пройдёт, нужно 6 символов. <br><br>
+	    <font color="0685F8">border-color</font>;             <font color="0685F8">"#000000" "#FFF"</font> не пройдёт, нужно 6 символов. <br><br>
+	    <font color="0685F8">border-width</font>;             Единица измерения только px;<br><br><br>
+	    <font color="0685F8">padding</font>;                  Поддерживается только одна цифра. То есть отступ сразу от всех четырех границ.<br><br>
+	  </td>
+	</tr>
+	<tr>
+	  <td colspan="4">
+        <hr>
+	  </td>
+	</tr>
+
+	<tr>
+	  <td>type</td>
+	  <td>Что это</td>
+	  <td>Значения для attr()</td>
+	  <td>Значения для stl()</td>
+	</tr>
+	<tr>
+	  <td colspan="4">
+        <hr>
+	  </td>
+	</tr>
+	<tr>
+	  <td>icheckbox</td>
+	  <td>
+	    Чекбокс.
+	  </td>
+	  <td>
+	    <font color="0685F8">checked</font>; При передаче строки, не равной "checked" становится unchecked;
+	      Лучше использовать v(<font color="0685F8">"id"</font>, <font color="0685F8">"Some not NULL text"</font>);<br><br>
+	      для установки checked и <br>
+	      v(<font color="0685F8">"id"</font>, <font color="AA0000">NULL</font>); для установки unchecked.<br><br>
+	      <b>Важно, для корректного отображения рядом с исполняемым файлом должны находится файлы изображений
+	      из каталога APP/i/SYS/CB.</b><br><br>
+	    Атрибуты нестандартные для html5 приложений, но мне кажутся удобными.<br><br>
+	    <font color="0685F8">label</font>;                Текст метки.<br><br>
+	    <font color="0685F8"><s>width</s>;</font>;        Ширина самого инпута чекбокса. Временно неподдерживается в связи с умыканием мной из window xp иконок чекбокса.<br><br>
+	    <font color="0685F8">margin-right;</font>;        Отступ справа от чекбокса до начала текста метки.<br><br>
+	  </td>
+	  <td>
+	    <font color="0685F8">top, left;</font>           Единица измерения только px;<br>
+	    TODO тут разобраться, не можем ли мы всё-таки управлять height width
+	  </td>
+	</tr>
+	<tr>
+	  <td colspan="4">
+        <hr>
+	  </td>
+	</tr>
+
+	<tr>
+	  <td>type</td>
+	  <td>Что это</td>
+	  <td>Значения для attr()</td>
+	  <td>Значения для stl()</td>
+	</tr>
+	<tr>
+	  <td colspan="4">
+        <hr>
+	  </td>
+	</tr>
+	<tr>
+	  <td>img</td>
+	  <td>
+	    Изображение.
+	  </td>
+	  <td>
+	    <font color="0685F8">src</font>;                Путь к изображению. Лучше использовать функцию v(<font color="0685F8">"id"</font>, <font color="0685F8">"path/to/image.png"</font>)<br><br>
+	  </td>
+	  <td>
+	    <font color="0685F8">top, left, width, height;</font>           Единица измерения только px;<br>
+	  </td>
+	</tr>
+	<tr>
+	  <td colspan="4">
+        <hr>
+	  </td>
+	</tr>
+
+	<tr>
+	  <td>type</td>
+	  <td>Что это</td>
+	  <td>Значения для attr()</td>
+	  <td>Значения для stl()</td>
+	</tr>
+	<tr>
+	  <td colspan="4">
+        <hr>
+	  </td>
+	</tr>
+	<tr>
+	  <td>btn</td>
+	  <td>
+	    Кнопка.
+	  </td>
+	  <td>
+	    <font color="0685F8">value</font>; Текст на кнопке. Лучше использовать функцию v(<font color="0685F8">"id"</font>, <font color="0685F8">"Push Me!"</font>)<br><br>
+	  </td>
+	  <td>
+	    <font color="0685F8">top, left;</font>  Единица измерения только px;<br>
+	    Ширина кнопки умеет автоматически изменяться в зависимости от текста.
+	    TODO, width, height разобраться, можно ли их всё-таки установить по желанию.<br><br>
+	    <font color="0685F8">background-color</font>; Цвет фона. Формат только 7 символов, например <font color="0685F8">"#FF0000"</font>;<br><br>
+	    <font color="0685F8">color</font>; Цвет текста. Формат только 7 символов, например <font color="0685F8">"#FF0000"</font>;<br><br>
+	  </td>
+	</tr>
+	<tr>
+	  <td colspan="4">
+        <hr>
+	  </td>
+	</tr>
+
+  </table>
+
+  <hr>
+</div>
+
+<br>
+</body>
+</html>

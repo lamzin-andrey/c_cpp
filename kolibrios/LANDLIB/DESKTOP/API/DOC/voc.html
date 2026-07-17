@@ -1,0 +1,72 @@
+<html>
+<head>
+<title>Документация API</title>
+<meta encoding="WINDOWS-1251">
+</head>
+<style>
+	a {color:white}
+</style>
+<body bgcolor="blue" >
+<font color="FFFFFF">
+<b>Используйте пункт контекстного меню "Открыть в новой вкладке"<br><br>
+Для удобства восприятия и совместимостью с <font color="DFD74F"><a href="https://andryuxa.ru/portfolio/desktop/qt_javascript_desktop/v=4" target="_blank">документацией QtWebView API</a></font>,
+(страницу по ссылке лучше открыть в современном браузере), имена функций имеют формат
+ИМЯ-КЛАССА_МЕТОД, хотя на самом деле в C конечно никаких классов нет.<br>
+Так, если вы видите функцию App_dir она максимально похожа на функцию App.dir из API по ссылке выше.<br><br>
+
+Это API создано быть максимально совместимым с API по ссылке выше.<br>
+Поэтому многие функции часто возвращают указатели на char.<br>
+Важно помнить золотые правила:<br><br>
+<font color="DFD74F">
+<b>1 Если функция этого API возвращает char*, значит вы обязаны сделать free(result), если обратное не указано в документации функции</b>
+</font>
+<br><br>
+
+<font color="DFD74F">
+<b>2 Если ваше приложение собирается работать в несколько потоков, Appinit() должен вызываться только один раз, в первом потоке. Это снимает все проблемы с потокобезопасностью. </b>
+</font><br><br>
+
+Для всех, кого такой подход пугает (коллеги боятся забыть сделать free(), если не будут передавать символьный result
+по ссылке) существуют дубликаты функций с префиксом s (сокращение от safe).<br><br>
+
+<font color="DFD74F">
+Взаимодействие с окружением.
+<ul>
+  <li>
+    <a href="content/appdir.html" target="blank">App_dir</a>
+  </li>
+  <li>
+    <a href="content/ofd.html#ofd" target="blank">Env_openFileDialog</a>
+  </li>
+  <li>
+    <a href="content/ofd.html#odd" target="blank">Env_openDirectoryDialog</a>
+  </li>
+  <li>
+    <a href="content/ofd.html#sfd" target="blank">Env_saveFileDialog</a>
+  </li>
+  <li>
+    <a href="content/exec1.html" target="blank">Env_exec1</a>
+  </li>
+  <li>
+    <a href="content/exec1.html#kill" target="blank">Env_kill</a>
+  </li>
+</ul>
+
+Взаимодействие с элементами GUI.
+<ul>
+  <li>
+    <a href="content/gui/e.html" target="blank">e()</a>
+  </li>
+  <li>
+    <a href="content/gui/v.html" target="blank">v()</a>
+  </li>
+  <li>
+    <a href="content/gui/stl.html" target="blank">stl()</a>
+  </li>
+<font>
+</ul>
+</b>
+<br>
+</font>
+</body>
+</html>

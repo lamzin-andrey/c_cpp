@@ -1,0 +1,106 @@
+<html>
+<head>
+<title>Документация API  - char* v()</title>
+<meta encoding="WINDOWS-1251">
+</head>
+<body >
+<h2>Взаимодействие с элементами GUI - char* v().</h2>
+<div id="v">
+  <table width="100%" bgcolor="white" >
+    <tr bgcolor="white">
+      <td >
+        v()
+      </td>
+      <td>
+        Возвращает значение инпута, либо текст внутри метки.
+        Может использоваться для изменения этого текста, тогда надо передать вторым аргументом не NULL.
+        <br>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <font color="AA0000">char*</font> v(<font color="AA0000">char*</font> id, <font color="AA0000">char*</font> value);
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        Аргументы.
+      </td>
+    </tr>
+
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> id
+      </td>
+      <td>
+        Идентификатор элемента.
+        Инпуту (или текстовому элементу) присваивается id при создании инпута с помощью функции
+        <font color="AA0000">Element</font> createElementIfNotExists(<font color="AA0000">char*</font> type, <font color="AA0000">char*</font> id);
+        или её сокращенного псевдонима
+        <font color="AA0000">Element</font> cine(<font color="AA0000">char*</font> type, <font color="AA0000">char*</font> id).<br>
+        Также id это первый аргумент всех lld* функций, создающих GUI элементы, таких как lldButton, lldText, lldIText и других.<br>
+        В функции V() этот id используется для доступа к элементу.
+      </td>
+    </tr>
+
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> value
+      </td>
+      <td>
+        Переданное значение устанавливается найденному по id инпуту.<br><br>
+        <b>Первый шаг к пониманию этой функции для веб-программиста:</b><br>
+        Функция V() вдохновлена функцией jQuery $.val(id, value);
+        Для инпутов она работает аналогично.<br>
+        Важно: Для инпутов типа icheckbox вернёт строку <font color="0685F8">"On"</font> или <font color="0685F8">"Off"</font>.
+        Но для установки чекбокса надо передавать не <font color="AA0000">NULL</font>, а для снятия чекбокса <font color="AA0000">NULL</font>.<br><br>
+        <b>Второй шаг к пониманию для веб-программиста:</b><br><br>
+        Мне всегда не хватало в jQuery.val() возможности использовать эту функцию для установки innerText (и даже innerHTML).
+        Поэтому v(<font color="0685F8">"idTextElement"</font>, <font color="0685F8">"Hello world"</font>) умеет устанавливать текст внутри элементов типа <font color="0685F8">"text"</font>;<br>
+        <font color="AA0000">Element</font> textElement = createElementIfNotExists(<font color="0685F8">"text"</font>, <font color="0685F8">"myTextBlock"</font>, <font color="0685F8">"Hello World"</font>);<br>
+        <font color="888888">//Element textElement = cine("text", "myTextBlock", "Hello World");</font><br><br>
+        v(<font color="0685F8">"myTextBlock"</font>, <font color="0685F8">"How are you"</font>); <font color="888888">// Установит новый текст внутри элемента</font><br><br>
+        <b>Третий шаг к пониманию для веб-программиста:</b><br><br>
+        Если установка текста внутри элемента типа <font color="0685F8">"text"</font> кажется вам логичной, попробуйте развить эту мысль и понять, что нет ничего плохого в установке пути к изображению этой же функцией
+         для элемента типа <font color="0685F8">"img"</font>.<br>
+        Поэтому v(<font color="0685F8">"idImageElement"</font>, <font color="0685F8">"/sd0/1/LIVES/KOLIBRI/HDATA/IMG/0.png"</font>) умеет устанавливать новое изображение на элементах типа <font color="0685F8">"img"</font>;<br>
+        <font color="AA0000">Element</font> imageElement = createElementIfNotExists(<font color="0685F8">"img"</font>, <font color="0685F8">"image1"</font>, <font color="0685F8">"/sd0/1/LIVES/KOLIBRI/HDATA/IMG/green.png"</font>);<br>
+        <font color="888888">//Element imageElement = cine("img", "image1", "/sd0/1/LIVES/KOLIBRI/HDATA/IMG/green.png");</font><br><br>
+        v(<font color="0685F8">"image1"</font>, <font color="0685F8">"/sd0/1/LIVES/KOLIBRI/HDATA/IMG/0.png"</font>); <font color="888888">// Выведет новое изображение внутри элемента (если файл существует)</font><br><br>
+        <br>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="2" align="center">
+        Возвращаемое значение.
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> value
+      </td>
+      <td>
+        Вернёт текущее значение инпута, если второй аргумент передан как <font color="AA0000">NULL</font>.<br>
+        Для элементов типа <font color="0685F8">"text"</font> соответственно вернет текущее значение текста внутри элемента.<br>
+        Для элементов типа <font color="0685F8">"img"</font> соответственно вернет текущий путь к изображению внутри элемента.<br>
+      </td>
+    </tr>
+  </table>
+  <hr>
+</div>
+<br>
+<h2>Про безопасность в этой функции</h2>
+Внутри V() есть фрагментs кода, похожие на:<br><br>
+<font color="AA0000">if</font> (<font color="AA0000">NULL</font> != el.img->src) {<br>
+&nbsp;&nbsp;&nbsp;free(el.img->src);<br>
+}<br>
+То есть, если связанный с отображаемым элементом текст не NULL, он очищается перед тем, как установить ему новое значение.
+Это гарантирует своевременную очистку памяти.<br>
+<b>Важно:</b> для текстовых инпутов такой очистки не происходит (пока не удаётся реализовать, не вызвав падение).
+<br>
+<br>
+<br>
+
+</body>
+</html>

@@ -184,11 +184,17 @@ void logFloat(char* file, char* prefix, double n) {
 
 void logStr(char* file, char* prefix, char* str) {
 	char* r = malloc(strlen(prefix) + strlen(str) + 1);
+	//r = "H";
 	r = addstr(r, prefix);
+	r = addstr(r, " = \"");
 	r = addstr(r, str);
-	r = addchar(r, '\n');
+	r = addstr(r, "\"\n");
 
-	writefile(file, r, true);
+	if (file_exists(file)) {
+		writefile(file, r, true);
+	} else {
+		writefile(file, r, false);
+	}
 }
 
 
@@ -388,8 +394,8 @@ long strposo(char* haystack, char* needle, ULONG offset) {
 			}
 			++j;
 			if (j >= sslen) {
-				//puts("j >= sslen/â");
-				return i;
+				//puts("j >= sslen\n");
+				return i - sslen + 1;
 			}
 		} else {
 			buf = addchar(buf, ch);
@@ -400,4 +406,303 @@ long strposo(char* haystack, char* needle, ULONG offset) {
 	}
 
 	return res;
+}
+
+
+char* implode(char* sep, char** ls, int length) {
+	char* r = "";
+	for (int i = 0; i < length; i++) {
+		r = addstr(r, ls[i]);
+		if (i < length - 1) {
+			r = addstr(r, sep);
+		}
+	}
+
+	return r;
+}
+void unseta(char** list, int index, int* length) {
+	char** r;
+	char ns;
+	int L = 0;
+	for (int i = 0; i < *length; i++) {
+		if (i != index) {
+			r = pushs(r, list[i], L);
+			L++;
+		}
+	}
+
+	*length = L;
+
+	list = r;
+}
+
+char* trim(char* s) {
+	UINT i, z, j;
+	z = strlen(s);
+	j = z - 1;
+	char* r = malloc(z + 1);
+
+	//right
+	for (i = z - 1; i > -1; i--) {
+		if (s[i] == ' ' || s[i] == '\t' || s[i] == '\r' || s[i] == '\n') {
+			continue;
+		}
+		j = i;
+		break;
+	}
+
+	//left
+	int found = 0;
+	for (i = 0; i < z; i++) {
+		if (0 == found && (s[i] == ' ' || s[i] == '\t' || s[i] == '\r' || s[i] == '\n')) {
+			continue;
+		}
+		r = addchar(r, s[i]);
+		found = 1;
+		if (j == i) {
+			break;
+		}
+	}
+	return r;
+}
+
+long intval(char* v){
+	int n = atoi(v);
+
+	return (UINT)n;
+}
+
+
+BOOL es(char* s1, char* s2) {
+	if (0 == strcmp(s1, s2)) {
+	  return true;
+	}
+	return false;
+}
+
+char* dechex(UINT v) {
+  UINT src = v;
+  v = v << 20;
+  v = v >> 20;
+  char* r = "XXXXXX";
+  r = _setHexSymbol(r, 5, v);
+
+  v = src;
+  v = v << 16;
+  v = v >> 20;
+  r = _setHexSymbol(r, 4, v);
+
+  v = src;
+  v = v << 12;
+  v = v >> 20;
+  r = _setHexSymbol(r, 3, v);
+
+  v = src;
+  v = v << 8;
+  v = v >> 20;
+  r = _setHexSymbol(r, 2, v);
+
+  v = src;
+  v = v << 4;
+  v = v >> 20;
+  r = _setHexSymbol(r, 1, v);
+
+  v = src;
+  v = v >> 20;
+  r = _setHexSymbol(r, 0, v);
+}
+
+UINT hexdec(char* v){
+  if (6 != strlen(v)) {
+   return 0;
+  }
+  UINT r = 0;
+  for (int i = 0; i < 6; i++) {
+    UINT p = _getByteFromCh(v[i]);
+    UINT m = 0;
+    char k = 24 - 4*(i + 1);
+    m = p << k;
+    r += m;
+  }
+  return r;
+}
+
+UINT _getByteFromCh(char c) {
+  if ('0' == c) {
+    return 0;
+  }
+  if ('1' == c) {
+    return 1;
+  }
+  if ('2' == c) {
+    return 2;
+  }
+  if ('3' == c) {
+    return 3;
+  }
+  if ('4' == c) {
+    return 4;
+  }
+  if ('5' == c) {
+    return 5;
+  }
+  if ('6' == c) {
+    return 6;
+  }
+  if ('7' == c) {
+    return 7;
+  }
+  if ('8' == c) {
+    return 8;
+  }
+  if ('9' == c) {
+    return 9;
+  }
+  if ('A' == c ||'a' == c) {
+    return 0xA;
+  }
+  if ('B' == c ||'b' == c) {
+    return 0xB;
+  }
+  if ('C' == c ||'c' == c) {
+    return 0xC;
+  }
+  if ('D' == c ||'d' == c) {
+    return 0xD;
+  }
+  if ('E' == c ||'e' == c) {
+    return 0xE;
+  }
+  if ('F' == c ||'f' == c) {
+    return 0xF;
+  }
+  return 0;
+}
+
+char* _setHexSymbol(char* s , int i, UINT v) {
+  char cv = (char)v;
+  if (0 == cv) {
+    s[i] = '0';
+    return s;
+  }
+  if (1 == cv) {
+    s[i] = '1';
+    return s;
+  }
+  if (2 == cv) {
+    s[i] = '2';
+    return s;
+  }
+  if (3 == cv) {
+    s[i] = '3';
+    return s;
+  }
+  if (4 == cv) {
+    s[i] = '4';
+    return s;
+  }
+  if (5 == cv) {
+    s[i] = '5';
+    return s;
+  }
+  if (6 == cv) {
+    s[i] = '5';
+    return s;
+  }
+  if (7 == cv) {
+    s[i] = '7';
+    return s;
+  }
+  if (8 == cv) {
+    s[i] = '8';
+    return s;
+  }
+  if (9 == cv) {
+    s[i] = '9';
+    return s;
+  }
+  if (0xA == cv) {
+    s[i] = 'A';
+    return s;
+  }
+  if (0xB == cv) {
+    s[i] = 'B';
+    return s;
+  }
+  if (0xC == cv) {
+    s[i] = 'C';
+    return s;
+  }
+  if (0xD == cv) {
+    s[i] = 'D';
+    return s;
+  }
+  if (0xE == cv) {
+    s[i] = 'E';
+    return s;
+  }
+  if (0xF == cv) {
+    s[i] = 'F';
+    return s;
+  }
+
+  s[i] = 'X';
+  return s;
+
+}
+
+char* substr(char* string, int offset, int* length) {
+	char* result;
+	int iLength;
+
+	if (length == NULL) {
+		iLength = strlen(string) - offset;
+	} else {
+		iLength = (*length);
+		if (iLength > strlen(string) - offset) {
+			iLength = strlen(string) - offset;
+		}
+	}
+
+	size_t len = (size_t)(iLength);
+	result = malloc(iLength + 1);
+
+	memcpy(result, string + offset, len);
+    result[len] = '\0';
+
+    return result;
+}
+
+int* ipush(int* a, int n, int* L) {
+	// unsigned int* r = malloc(sizeof(unsigned int) * ((*L) + 1));
+	int* r = realloc(a, sizeof(int) * (*L + 1));
+
+	/*for (unsigned int i = 0; i < (*L); i++) {
+		r[i] = a[i];
+	}*/
+	r[*L] = n;
+	*L = (*L) + 1;
+	//free(a);
+	return r;
+}
+
+unsigned int* uipush(unsigned int* a, unsigned int n, unsigned int* L) {
+	// unsigned int* r = malloc(sizeof(unsigned int) * ((*L) + 1));
+	unsigned int* r = realloc(a, sizeof(unsigned int) * (*L + 1));
+
+	/*for (unsigned int i = 0; i < (*L); i++) {
+		r[i] = a[i];
+	}*/
+	r[*L] = n;
+	*L = (*L) + 1;
+	//free(a);
+	return r;
+}
+
+
+char chr(int n) {
+	return (char)n;
+}
+int ord(char c) {
+	return (UINT)c;
 }

@@ -1,0 +1,223 @@
+<html>
+<head>
+<title>Документация API  - char* stl()</title>
+<meta encoding="WINDOWS-1251">
+</head>
+<body >
+<h2>Взаимодействие с элементами GUI - char* stl().</h2>
+<div id="stl">
+  <table width="100%" bgcolor="white" >
+    <tr bgcolor="white">
+      <td >
+        stl()
+      </td>
+      <td>
+        Возвращает положение инпута либо его цвет.
+        Может использоваться для изменения этих свойств, тогда надо передать третьим аргументом не <font color="AA0000">NULL</font>.
+        <br>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <font color="AA0000">char*</font> stl(<font color="AA0000">char*</font> id, <font color="AA0000">char*</font> propertyName, <font color="AA0000">char*</font> value);
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        Аргументы.
+      </td>
+    </tr>
+
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> id
+      </td>
+      <td>
+        Идентификатор элемента.
+        Инпуту (или текстовому элементу) присваивается id при создании инпута с помощью функции
+        <font color="AA0000">Element</font> createElementIfNotExists(<font color="AA0000">char*</font> type, <font color="AA0000">char*</font> id);
+        или её сокращенного псевдонима
+        <font color="AA0000">Element</font> cine(<font color="AA0000">char*</font> type, <font color="AA0000">char*</font> id).<br>
+        Также id это первый аргумент всех lld* функций, создающих GUI элементы, таких как lldButton, lldText, lldIText и других.<br>
+        В функции stl() этот id используется для доступа к элементу.
+      </td>
+    </tr>
+
+
+
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> propertyName
+      </td>
+      <td>
+        Переданное в третьем аргументе значение устанавливается свойству найденного по id инпута.<br><br>
+        Список существующих свойств см. в таблице ниже.
+        <br>
+      </td>
+    </tr>
+
+
+
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> value
+      </td>
+      <td>
+        Переданное значение устанавливается свойству найденного по id инпута, которое называется, как указано во втором аргументе.<br><br>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="2" align="center">
+        Возвращаемое значение.
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> value
+      </td>
+      <td>
+        Вернёт текущее значение свойства инпута, если третий аргумент передан как <font color="AA0000">NULL</font>.<br>
+      </td>
+    </tr>
+  </table>
+  <hr>
+</div>
+<br>
+<div id="stl">
+  <h2>Допустимые значения propertyName</h2>
+  <table width="100%" bgcolor="white" border="1">
+    <tr bgcolor="white">
+      <td>
+        Имя
+      </td>
+      <td>
+        Типы элементов, которые поддерживают / не поддерживают
+      </td>
+      <td>
+        Единица измерения / формат
+      </td>
+    </tr>
+  </table>
+  <hr>
+  <table width="100%" bgcolor="white" border="1">
+    <tr bgcolor="white">
+      <td>
+        <font color="0685F8">left</font>
+      </td>
+      <td>
+        <font color="0685F8">"text", "btn", "img", "itext", "icheckbox"</font>
+      </td>
+      <td>
+        Только <font color="0685F8">"px"</font>
+      </td>
+    </tr>
+  </table>
+  <hr>
+  <table width="100%" bgcolor="white" border="1">
+    <tr bgcolor="white">
+      <td>
+        <font color="0685F8">top</font>
+      </td>
+      <td>
+        <font color="0685F8">"text", "btn", "img", "itext", "icheckbox"</font>
+      </td>
+      <td>
+        Только <font color="0685F8">"px"</font>
+      </td>
+    </tr>
+  </table>
+  <hr>
+  <table width="100%" bgcolor="white" border="1">
+    <tr bgcolor="white">
+      <td>
+        <font color="0685F8">width</font>
+      </td>
+      <td>
+        <font color="0685F8">"img", "itext"</font>
+        <font color="AA0000">"text", "btn", "icheckbox"</font>
+      </td>
+      <td>
+        Только <font color="0685F8">"px"</font>
+      </td>
+    </tr>
+  </table>
+  <hr>
+  <table width="100%" bgcolor="white" border="1">
+    <tr bgcolor="white">
+      <td>
+        <font color="0685F8">height</font>
+      </td>
+      <td>
+        <font color="0685F8">"img", "itext"</font>
+        <font color="AA0000">"text", "btn", "icheckbox"</font>
+      </td>
+      <td>
+        Только <font color="0685F8">"px"</font>
+      </td>
+    </tr>
+  </table>
+  <hr>
+
+  <table width="100%" bgcolor="white" border="1">
+    <tr bgcolor="white">
+      <td>
+        <font color="0685F8">background-color</font>
+      </td>
+      <td>
+        <font color="0685F8">"text", "btn"</font>
+        <font color="AA0000">"img", "icheckbox", "itext"</font>
+      </td>
+      <td>
+        Только 6 цифр, например<font color="0685F8">"#AA0000"</font>
+      </td>
+    </tr>
+  </table>
+  <hr>
+
+  <table width="100%" bgcolor="white" border="1">
+    <tr bgcolor="white">
+      <td>
+        <font color="0685F8">color</font>
+      </td>
+      <td>
+        <font color="0685F8">"text", "btn"</font>
+        <font color="AA0000">"img", "icheckbox", "itext"</font>
+      </td>
+      <td>
+        Только 6 цифр, например<font color="0685F8">"#AA0000"</font>
+      </td>
+    </tr>
+  </table>
+  <hr>
+
+  <table width="100%" bgcolor="white" border="1">
+    <tr bgcolor="white">
+      <td>
+        <font color="0685F8">padding</font>
+      </td>
+      <td>
+        <font color="0685F8">"text""</font>
+        <font color="AA0000">"img", "icheckbox", "itext", "btn"</font>
+      </td>
+      <td>
+        Только <font color="0685F8">"px"</font>
+      </td>
+    </tr>
+  </table>
+  <hr>
+
+<h2>Про безопасность в этой функции TODO</h2>
+Внутри V() есть фрагментs кода, похожие на:<br><br>
+<font color="AA0000">if</font> (<font color="AA0000">NULL</font> != el.img->src) {<br>
+&nbsp;&nbsp;&nbsp;free(el.img->src);<br>
+}<br>
+То есть, если связанный с отображаемым элементом текст не NULL, он очищается перед тем, как установить ему новое значение.
+Это гарантирует своевременную очистку памяти.<br>
+<b>Важно:</b> для текстовых инпутов такой очистки не происходит (пока не удаётся реализовать, не вызвав падение).
+<br>
+<br>
+<br>
+
+</body>
+</html>

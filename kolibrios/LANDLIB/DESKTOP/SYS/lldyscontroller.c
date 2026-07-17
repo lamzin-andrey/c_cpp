@@ -102,7 +102,7 @@ void lldSysOnMouseEvent(UINT pressed_button, UINT wheels)
       if (0 == strcmp("hscroll", type)) {
         scrollbar_h_mouse(&LLDO_HSCROLL[i].sc);
       }
-      if (0 == strcmp("icheckbox", type)) {
+      if (0 == strcmp("icheckbox", type) && 0 == strcmp(LLDO_CHB[i].id, id)) {
         cChBIndex = i;
       }
     }

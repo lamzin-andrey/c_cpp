@@ -1,0 +1,67 @@
+<html>
+<head>
+<title>Документация API - App_dir</title>
+<meta encoding="WINDOWS-1251">
+</head>
+<body >
+<h2>Взаимодействие с окружением - App_dir.</h2>
+<div id="appdir">
+  <table>
+    <tr bgcolor="white" >
+      <td >
+        App_dir
+      </td>
+      <td>
+        Возвращает путь к каталогу, в котором находится исполняемый файл приложения.<br>
+        <font color="AA0000">Важно! В данном случае не надо никогда вызывать free(_app_dir), так как память под результат App_dir() выделяется один раз, при запуске приложения (вызов Appinit() в main.c).
+        </font>;
+
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <font color="AA0000">char*</font> App_dir();
+      </td>
+    </tr>
+  </table>
+  <hr>
+  <table width="100%" bgcolor="white" >
+    <tr bgcolor="white" >
+      <td >
+        Appdir
+      </td>
+      <td>
+        Дубликат App_dir(). Возвращает путь к каталогу, в котором находится исполняемый файл приложения.<br>
+        <font color="AA0000">Важно! В данном случае не надо никогда вызывать free(_app_dir), так как память под результат App_dir() выделяется один раз, при запуске приложения (вызов Appinit() в main.c).
+        </font>;
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <font color="AA0000">char*</font> Appdir();
+      </td>
+    </tr>
+  </table>
+  <hr>
+  <table>
+    <tr bgcolor="white" >
+      <td >
+        sApp_dir
+      </td>
+      <td>
+        Сверх-безопасная версия. Явно передаём результат и размер буфера в функцию, что должно подсказать C программисту необходимость очистить буфер в клиентском коде.
+        Возвращает 1 если удалось поместить путь к каталогу приложения в size символов и 0 в противном случае.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <font color="AA0000">int</font> sApp_dir(<font color="AA0000">char*</font> result, <font color="AA0000">UINT</font> size);
+      </td>
+    </tr>
+  </table>
+  <hr>
+</div>
+
+<br>
+</body>
+</html>

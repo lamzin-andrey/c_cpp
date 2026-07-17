@@ -163,4 +163,7 @@ char prevMouseBtn = 0;
 UINT prevMX = 0;
 UINT prevMY = 0;
 
+
+frame fr;
+
 #endif /* KOLIBRI_BOXLIB_H */

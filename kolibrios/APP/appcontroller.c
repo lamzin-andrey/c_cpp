@@ -1,8 +1,46 @@
+#include "../landlib/desktop/api/app.h"
 #include "../landlib/desktop/api/mw.h"
 #include "../landlib/desktop/api/env.h"
 void draw_window();
 
+
+
+
 void onCreate() {
+  // решил добавить фрейм.
+  /*frame fr;
+  //uint32_t type;
+  fr.type = 0;
+  //uint32_t x_w;
+  fr.x_w = 0;
+  //f.x_w = f.x_w << 16;
+  fr.x_w += 100;
+  //uint32_t y_h;
+  fr.y_h = 40;
+  fr.y_h = fr.x_w << 16;
+  fr.y_h += 100;
+  //color_t ext_col;
+  //f.ext_col = 0xFF0000;
+  //color_t int_col;
+  //f.int_col = 0x00FF00;
+  //uint32_t flags;
+  fr.flags = 0;
+  //char* text_pointer;
+  fr.text_pointer = "Hello, frame!";
+  //uint32_t text_position;
+  fr.text_position = 0;
+  //uint32_t font_number;
+  //f.font_number = 14;
+  //f.font_size_y = 14;
+  //uint32_t font_size_y;
+  //color_t font_color;
+  fr.font_color = 0x000000;
+  //color_t font_bg_color;
+  fr.font_bg_color = 0xFFFFFF;
+
+  frame_draw(&fr);*/
+
+  // Тут было все ок.
   TabIndexDefaultMode = 1;
 
   VScroll* vs1 = lldVScroll("vs1", -19, 0);
@@ -12,7 +50,16 @@ void onCreate() {
   hs2->hasNormal = true;
   hs2->offsetX = 100;
 
-  lldIText("inp1", 10, 180, "Tests!");
+  /*char* _appDir;
+  _appDir = malloc(4096);
+  sApp_dir(_appDir, 4096);
+  lldIText("inp1", 10, 180, _appDir);
+  free(_appDir);*/
+
+
+  char* _appDir = App_dir();
+  lldIText("inp1", 10, 180, _appDir);
+  free(_appDir);
 
   lldIText("inp2", 10, 250, "Tests two!");
   lldICheckboxC("cb1", 10, 210, "Съешь ещё этих мягких французских булок да выпей же чаю!",0x000000, 0x000000);
@@ -33,12 +80,47 @@ void onCreate() {
 
   LLDButton* btn1 = lldGreenButton("btn1", "Push Me!", 90, 400);
   btn1->intId = 1;
-  LLDButton* btn2 = lldButton("btn2", "Push Me!", 90, 430);
+  LLDButton* btn2 = lldButton("btn2", "Push Me 2!", 90, 430);
   btn2->intId = 2;
   LLDButton* btn3 = lldRedButton("btn3", "Push Me!", 90, 460);
+  btn3->intId = 3;
   LLDButton* btn4 = lldBlueButton("btn4", "Push Me!", 90, 490);
   LLDButton* btn5 = lldPrimaryButton("btn5", "Push Me!", 190, 460);
+  btn5->intId = 5;
 
+  Element el6 = cine("text", "it8", "app/i/disk32.png");
+  v("it8", "Урра!!");
+  char* current = stl("it8", "left", "101px");
+  free(current);
+  current = stl("it8", "left", "201px");
+  free(current);
+  stl("it8", "top", "60px");
+  stl("it8", "background-color", "#AA0000");
+  stl("it8", "color", "#FFFFFF");
+  stl("it8", "height", "500px");
+  stl("it8", "padding", "10px");
+
+  /*Element wideButton = cine("btn", "wb0260210", "Hello cine button");
+  stl("wb0260210", "height", "350px");
+  stl("wb0260210", "color", "#00FF00");
+  v("wb0260210", "Wide Button");*/
+
+
+  /*Element wideInp = cine("icheckbox", "win0260210", "Hello cine button");
+  stl("win0260210", "background-color", "#00FF00");
+  stl("win0260210", "top", "30px");
+  stl("win0260210", "left", "30px");
+  stl("win0260210", "width", "100px");
+  v("win0260210", "Wide ci");*/
+
+  /*Element wideImg = cine("img", "wi0260210", "app/i/disk32.png");
+  //stl("wi0260210", "background-color", "#FF0000");
+  stl("wi0260210", "width", "250px");*/
+
+
+  /*el6.txt->bgColor = 0x00AA00;
+  el6.txt->color = 0xFFFFFF;
+  el6.txt->savedColor = 0xFFFFFF;*/
 
   // Пока ее в sys controller оставим, потом перенесем в landInputs
 }
@@ -105,14 +187,40 @@ void onClick(char* id, UINT mX, UINT mY, UINT btnId) {
     		v("cb1", "1");
     	}
 
-    	MWmoveTo(0, 0);
+    	/*MWmoveTo(0, 0);
     	MWresizeTo(640, 480);
-    	MWsetTitle("Привет мир!");
-    	char* path = EnvopenDirectoryDialog("Hello", "/sd0/1");
-    	v("txt1", path);
+    	MWsetTitle("Привет мир!");*/
 
-    	draw_window();
+    	char* path = Env_openFileDialog("Hello", "", "*.C *.TXT");
+    	/*UINT sz = 255;
+    	char* path;
+    	path = malloc(sz);
+    	sEnv_openFileDialog("Hello", "", "*.C *.TXT", path, sz);*/
+    	v("txt1", path);
+    	//draw_window();
+    	//free(path);
+
     	//el.txt->text = "New wave";
+    }// /if btnId == 2
+    if (btnId == 3) {
+    	char* path3 = Env_saveFileDialog("Hello", "", "*.C *.SH");
+    	/*UINT sz = 255;
+    	char* path3;
+    	path3 = malloc(sz);
+    	sEnv_saveFileDialog("Hello", "", "*.C *.SH", path3, sz);*/
+    	v("txt1", path3);
+    	//draw_window();
+    	//free(path3);
+    }
+    if (btnId == 5) {
+    	char* path2 = Env_openDirectoryDialog("Hello", "/tmp0/1/");
+    	/*UINT sz = 255;
+    	char* path2;
+    	path2 = malloc(sz);
+    	sEnv_openDirectoryDialog("Hello", "/tmp0/1/", path2, sz);*/
+    	v("txt1", path2);
+    	//draw_window();
+    	//free(path2);
     }
 
 }

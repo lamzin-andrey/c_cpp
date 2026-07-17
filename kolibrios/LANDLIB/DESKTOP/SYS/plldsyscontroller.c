@@ -62,7 +62,7 @@ char* getIdByMousePos(UINT mX, UINT mY, long* btnId, char* rType) {
 		if (elFound == 1) {
 			if (mX >= x && mX <= (x + w)) {
 				if (mY >= y && mY <= (y + h)) {
-					if (intId != -1) {
+					if (intId != -1 && (0 == strcmp("btn", type)) ) {
 						*btnId = intId;
 					}
 					return id;

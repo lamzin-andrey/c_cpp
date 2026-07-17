@@ -15,6 +15,7 @@ int writefile(char* filename, char* s, BOOL isAppend) {
 
 
 
+
 char* readfile(char *filename) {
 
 	ULONG bufSize = 4*1024;
@@ -24,14 +25,17 @@ char* readfile(char *filename) {
 
 
 	FILE *f;
-	char* rdResult;
+	char* rdResult = "*";
 
 	f = fopen(filename, "r");
+	//puts("Hello readfile!");
 	while (NULL != rdResult && EOF != feof(f)){
+		//puts("do gets\n");
 		for (ULONG i = 0; i < bufSize; i++) {
 		   buf[i] = '\0';
 	 	}
 		rdResult = fgets(buf, bufSize, f);
+		//printf("buf = `%s`\n", buf);
 
 		char *tempR = NULL;
 		int ssz = strlen(r) + strlen(buf) + 1;
@@ -41,6 +45,7 @@ char* readfile(char *filename) {
 		r = tempR;
 
 	}
+	fclose(f);
 
 	return r;
 }

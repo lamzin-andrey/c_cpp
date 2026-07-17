@@ -35,6 +35,7 @@ char* title = "Boxlib example";
 char wndWasCentred = 0;
 
 
+
 // TODO appcontroller::layout
 // Начнем с простого: поместим в соотв. массивы подобные переменные.
 
@@ -62,12 +63,13 @@ void draw_window()
     _ksys_end_draw();
 }
 
-int main()
+int main(int argc, char** argv)
 {
 	winW = 640;
 	winH = 563;
 	winX = 15;
 	winY = 100;
+	Appinit(argc, argv);
     onCreate(); // LLD
 
     _ksys_set_event_mask(KSYS_EVM_REDRAW + KSYS_EVM_KEY + KSYS_EVM_BUTTON + KSYS_EVM_MOUSE + KSYS_EVM_MOUSE_FILTER);

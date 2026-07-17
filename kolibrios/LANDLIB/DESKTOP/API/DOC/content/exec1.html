@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>Документация API  - Env.exec1</title>
+<meta encoding="WINDOWS-1251">
+</head>
+<body >
+<h2>Взаимодействие с окружением - Env.exec1.</h2>
+
+<div id="exec1">
+  <table width="100%" bgcolor="white" >
+    <tr bgcolor="white">
+      <td >
+        Env.exec1
+      </td>
+      <td>
+        Запускает другую программу. Пока не удаётся реализовать полный аналог QtWebView API Env.exec
+         этот ментод можно использовать для замены (отсюда и суффикс 1).
+        Возвращает идентификатор запускаемого процесса.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <font color="AA0000">int</font> Envexec1(<font color="AA0000">char*</font> executeFile, <font color="AA0000">char*</font> arguments);
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        Аргументы
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> executeFile
+      </td>
+      <td>
+        Путь к исполняемому файлу.
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> arguments
+      </td>
+      <td>
+        Аргументы, передаваемые исполняемому файлу.
+      </td>
+    </tr>
+  </table>
+  <hr>
+</div>
+
+<div id="kill">
+  <table width="100%" bgcolor="white" >
+    <tr bgcolor="white">
+      <td >
+        Env.kill
+      </td>
+      <td>
+        Завершает другую программу.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <font color="AA0000">void</font> Envkill(<font color="AA0000">unsigned int</font> processId);
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        Аргументы
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">unsigned int</font> processId
+      </td>
+      <td>
+        Системный идентификатр процесса. Его возвращает функция Envexec1 и будет возвращать Envexec во втором элементе массива.
+      </td>
+    </tr>
+  </table>
+  <hr>
+</div>
+
+
+<br>
+</body>
+</html>
