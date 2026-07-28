@@ -1,7 +1,7 @@
 #SHS
 
 rm obj/main.o
-rm landcoder.kex
+rm landdecoder.kex
 
 #rm obj/landio.o
 #/sd0/1/lives/kolibri/isoContent/kolibrios/develop/tcc/tcc -c ../../landlib/dummyphpc/landio.c -o obj/landio.o
@@ -34,9 +34,10 @@ rm landcoder.kex
 #/sd0/1/lives/kolibri/isoContent/kolibrios/develop/tcc/tcc -c ../../landlib/crypton/crypton.c -o obj/crypton.o
 
 /sd0/1/lives/kolibri/isoContent/kolibrios/develop/tcc/tcc -c generic/main.c -o obj/main.o
-/sd0/1/lives/kolibri/isoContent/kolibrios/develop/tcc/tcc obj/landio.o obj/dphp.o obj/landinput.o obj/landimage.o obj/micron.o obj/lldmw.o obj/lldenv.o obj/lldapp.o obj/main.o -o landcoder.kex -lbox_lib -limg -ldialog
+/sd0/1/lives/kolibri/isoContent/kolibrios/develop/tcc/tcc obj/landio.o obj/dphp.o obj/landinput.o obj/landimage.o obj/micron.o obj/lldmw.o obj/lldenv.o obj/lldapp.o  obj/main.o -o landdecoder.kex -lbox_lib -limg -ldialog
 
-landcoder.kex
+landdecoder.kex
+
 
 pkill tcc
 pkill shell

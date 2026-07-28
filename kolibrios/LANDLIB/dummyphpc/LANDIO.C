@@ -1,11 +1,13 @@
 #include "landio.h"
 
+
 int writefile(char* filename, char* s, BOOL isAppend) {
 	FILE *fd;
 	if (isAppend == 1 || isAppend == 8) {
 		fd = fopen(filename, "a");
 	} else {
-		fd = fopen(filename, "w");
+		_ksys_file_create(filename);
+		fd = fopen(filename, "a");
 	}
 	ULONG  sz = (ULONG)strlen(s);
 	int result = fwrite(s, sizeof(char),sz, fd);

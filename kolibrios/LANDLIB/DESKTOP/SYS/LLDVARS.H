@@ -9,12 +9,22 @@
 #include "../../dummyphpc/dphpc.h"
 #include "landimage.h"
 #define DISPLAY_OBJ_SZ  4096
-#define LLDI_DEFAULT_BG_COLOR  0xD2D0C2
+#define LLDI_DEFAULT_BG_COLOR  0xEFE9D6
+/*0xD2D0C2*/
 
 int winW;
 int winH;
 int winX;
 int winY;
+
+char* title = "Land Crypton 1 decoder";
+
+typedef struct IntRect {
+	int x;
+	int y;
+	int w;
+	int h;
+} IntRect;
 
 int focusedTabIndex = -1;
 char TabIndexDefaultMode = 0; // 0 - images and static text no get focus on tab

@@ -1,5 +1,6 @@
 #include "dphpc.h"
 
+
 BOOL file_exists(char* filename) {
   /*FILE* f = fopen(filename, "r");
   if (!f) {
@@ -703,6 +704,21 @@ unsigned int* uipush(unsigned int* a, unsigned int n, unsigned int* L) {
 char chr(int n) {
 	return (char)n;
 }
+
 int ord(char c) {
 	return (UINT)c;
+}
+
+void sleep(UINT s) {
+	int ms = (int)(s * 100);
+	asm_inline(
+        "int $0x40"
+        :
+        : "a"(5), "b"(ms)
+	);
+
+}
+
+BOOL unlink(char* name) {
+	return 0 == _ksys_file_delete(name);
 }

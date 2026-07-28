@@ -3,7 +3,7 @@
 
 rm testcrypt.kex
 
-#rm obj/landio.o
+rm obj/landio.o
 /sd0/1/lives/kolibri/isoContent/kolibrios/develop/tcc/tcc -c ../dummyphpc/landio.c -o obj/landio.o
 
 

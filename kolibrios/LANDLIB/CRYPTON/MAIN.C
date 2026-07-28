@@ -1,7 +1,7 @@
 #include "crypton.h"
 
 int main() {
-	char* s = file_get_contents("README.TXT");
+	char* s = file_get_contents("Readme.txt");
 
 	char* pass = "1Io01545";
 	char* cr = "";

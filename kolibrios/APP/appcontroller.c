@@ -82,7 +82,7 @@ void onCreate() {
   btn1->intId = 1;
   LLDButton* btn2 = lldButton("btn2", "Push Me 2!", 90, 430);
   btn2->intId = 2;
-  LLDButton* btn3 = lldRedButton("btn3", "Push Me!", 90, 460);
+  LLDButton* btn3 = lldRedButton("btn3", "Maximize", 90, 460);
   btn3->intId = 3;
   LLDButton* btn4 = lldBlueButton("btn4", "Push Me!", 90, 490);
   LLDButton* btn5 = lldPrimaryButton("btn5", "Push Me!", 190, 460);
@@ -203,14 +203,13 @@ void onClick(char* id, UINT mX, UINT mY, UINT btnId) {
     	//el.txt->text = "New wave";
     }// /if btnId == 2
     if (btnId == 3) {
-    	char* path3 = Env_saveFileDialog("Hello", "", "*.C *.SH");
-    	/*UINT sz = 255;
-    	char* path3;
-    	path3 = malloc(sz);
-    	sEnv_saveFileDialog("Hello", "", "*.C *.SH", path3, sz);*/
-    	v("txt1", path3);
-    	//draw_window();
-    	//free(path3);
+    	// test save file dialog
+    	//char* path3 = Env_saveFileDialog("Hello", "", "*.C *.SH");
+    	//v("txt1", path3);
+
+    	//_ksys_change_window(0, 0, 1024, 700);
+    	MW_maximize();
+
     }
     if (btnId == 5) {
     	char* path2 = Env_openDirectoryDialog("Hello", "/tmp0/1/");

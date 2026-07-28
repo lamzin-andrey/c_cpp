@@ -1,0 +1,382 @@
+<html>
+<head>
+<meta encoding="WINDOWS-1251">
+<title>Документация API   - MW_maximize </title>
+
+</head>
+<body >
+<h2>Управление окном.</h2>
+
+<div id="mx">
+  <table width="100%" bgcolor="white" >
+    <tr bgcolor="white" >
+      <td >
+        MW_maximize
+      </td>
+      <td>
+        Разворачивает окно на весь экран
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <font color="AA0000">void</font> MW_maximize();
+      </td>
+    </tr>
+  </table>
+  <hr>
+</div>
+<br>
+<div id="rt">
+  <table width="100%" bgcolor="white" >
+    <tr bgcolor="white" >
+      <td >
+        MWresizeTo
+      </td>
+      <td>
+        Изменяет размеры окна.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <font color="AA0000">void</font> MWresizeTo(<font color="AA0000">unsigned int</font> w, <font color="AA0000">unsigned int</font> h);
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        Аргументы
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">unsigned int</font> w
+      </td>
+      <td>
+        Ширина окна
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">unsigned int</font> h
+      </td>
+      <td>
+        Высота окна.
+      </td>
+    </tr>
+  </table>
+  <hr>
+</div>
+
+
+<br>
+<div id="mv">
+  <table width="100%" bgcolor="white" >
+    <tr bgcolor="white" >
+      <td >
+        MWmoveTo
+      </td>
+      <td>
+        Перемещает окно.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <font color="AA0000">void</font> MWmoveTo(<font color="AA0000">unsigned int</font> x, <font color="AA0000">unsigned int</font> y);
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        Аргументы
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">unsigned int</font> x
+      </td>
+      <td>
+        Координата окна.
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">unsigned int</font> y
+      </td>
+      <td>
+        Координата окна.
+      </td>
+    </tr>
+  </table>
+  <hr>
+</div>
+
+<br>
+
+<div id="st">
+  <table width="100%" bgcolor="white" >
+    <tr bgcolor="white" >
+      <td >
+        MWsetTitle
+      </td>
+      <td>
+        Устанавливает текст заголовка окна
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <font color="AA0000">void</font> MWsetTitle(<font color="AA0000">char*</font> title);
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        Аргументы
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> title
+      </td>
+      <td>
+        Заголовок окна
+      </td>
+    </tr>
+  </table>
+  <hr>
+</div>
+
+<br>
+<p>
+  <h2>Про безопасность этих методов.</h2>
+</p>
+<p>TODO</p>
+<p>Ниже оставил из Env, чтобы вникнуть быстрее</p>
+<p>
+    Все три вышеперечисленных метода всегда возвращают один и тот же адрес.
+    Существует глобальная системная структура <font color="#AA0000">open_dialog*</font>lld_dlg_open;
+    Структура <b>один раз</b> инициализируется вызовом системной функции
+    <font color="#AA0000">kolibri_new_open_dialog()</font>.
+    Происходит эта инициализация при первом вызове любого из трёх методов.
+</p>
+<p>
+    Все последующие вызовы изменяют поля mode и filter_area
+    глобальной структуры. И возвращают её поле <i>lld_dlg_open-&gt;openfile_path</i> (либо пустую
+    строку, если <i>lld_dlg_open-&gt;status != SUCCESS</i>).
+</p>
+<p>
+  Тем не менее, для всех, кого это не убедило, существуют копии методов с префиксом <b>s</b> (от <b>safe</b>), которые возвращают void.
+</p>
+<br>
+<div id="sofd">
+  <table width="100%" bgcolor="white" >
+    <tr bgcolor="white" >
+      <td >
+        sEnv_openFileDialog
+      </td>
+      <td>
+        Запускает системный диалог открытия файлов.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <font color="AA0000">int</font> sEnv_openFileDialog(<font color="AA0000">char*</font> caption, <font color="AA0000">char*</font> catalog, <font color="AA0000">char*</font> filter, <font color="AA0000">char*</font> result, <font color="AA0000">UINT</font> size);
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        Аргументы
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> caption
+      </td>
+      <td>
+        Должен устанавливать заголовок окна выбора файлов. В настоящее время не работает.
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> catalog
+      </td>
+      <td>
+        Указывает, файлы какого каталога показать.
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> filter
+      </td>
+      <td>
+        Определяет, файлы каких расширений надо показывать в диалоге выбора файлов. Например
+        <font color="0685F8">"*.txt *.c *.sh"</font>.<br>
+        Расширения разделяются одним пробелом.
+        Формат фильтра выбран таким же, как в соответствующей функции QtWebView API (а в QtWebView API он выбран таким же, как в соответствующем методе Qt5).
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> result
+      </td>
+      <td>
+        Сюда запишется результат вычисления <font color="AA0000">strcpy</font>(result, od_dialog->openfile_name)</font>
+      </td>
+    </tr>
+    <tr bgcolor="white">
+      <td >
+        <font color="AA0000">UINT</font> size
+      </td>
+      <td>
+        Размер буфера result.
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">reurn int</font>
+      </td>
+      <td>
+        Если удалось скопировать путь в result вернёт 1, иначе 0
+      </td>
+    </tr>
+  </table>
+  <hr>
+</div>
+
+<div id="sodd">
+  <table width="100%" bgcolor="white" >
+    <tr bgcolor="white" >
+      <td >
+        Env_sopenDirectoryDialog
+      </td>
+      <td>
+        Запускает системный диалог выбора каталога.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <font color="AA0000">char*</font> EnvopenDirectoryDialog(<font color="AA0000">char*</font> caption, <font color="AA0000">char*</font> catalog, <font color="AA0000">char*</font> result, <font color="AA0000"UINT</font> size);
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        Аргументы
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> caption
+      </td>
+      <td>
+        Должен устанвливать заголовок окна выбора файлов. В настоящее время не работает.
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> catalog
+      </td>
+      <td>
+        Указывает, файлы какого каталога показать.
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> result
+      </td>
+      <td>
+        Сюда запишется результат вычисления <font color="AA0000">strcpy</font>(result, od_dialog->openfile_name)</font>
+      </td>
+    </tr>
+    <tr bgcolor="white">
+      <td >
+        <font color="AA0000">UINT</font> size
+      </td>
+      <td>
+        Размер буфера result.
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">reurn int</font>
+      </td>
+      <td>
+        Если удалось скопировать путь в result вернёт 1, иначе 0
+      </td>
+    </tr>
+  </table>
+  <hr>
+</div>
+<br>
+<div id="ssfd">
+  <table width="100%" bgcolor="white" >
+    <tr bgcolor="white" >
+      <td >
+        sEnv_saveFileDialog
+      </td>
+      <td>
+        Запускает системный диалог выбора файла для сохранения.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <font color="AA0000">int</font> sEnv_saveFileDialog(<font color="AA0000">char*</font> caption, <font color="AA0000">char*</font> catalog, <font color="AA0000">char*</font> filter, <font color="AA0000">char*</font> result, <font color="AA0000">int</font> size);
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        Аргументы
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> caption
+      </td>
+      <td>
+        Должен устанавливать заголовок окна выбора файлов. В настоящее время не работает.
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> catalog
+      </td>
+      <td>
+        Указывает, файлы какого каталога показать.
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> filter
+      </td>
+      <td>
+        Определяет, файлы каких расширений надо показывать в диалоге выбора файлов. Например
+        <font color="0685F8">"*.txt *.c *.sh"</font>.<br>
+        Расширения разделяются одним пробелом.
+        Формат фильтра выбран таким же, как в соответствующей функции QtWebView API (а в QtWebView API он выбран таким же, как в соответствующем методе Qt5).
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">char*</font> result
+      </td>
+      <td>
+        Сюда запишется результат вычисления <font color="AA0000">strcpy</font>(result, od_dialog->openfile_name)</font>
+      </td>
+    </tr>
+    <tr bgcolor="white">
+      <td >
+        <font color="AA0000">UINT</font> size
+      </td>
+      <td>
+        Размер буфера result.
+      </td>
+    </tr>
+    <tr bgcolor="white" >
+      <td >
+        <font color="AA0000">reurn int</font>
+      </td>
+      <td>
+        Если удалось скопировать путь в result вернёт 1, иначе 0
+      </td>
+    </tr>
+  </table>
+  <hr>
+</div>
+</br>
+</body>
+</html>

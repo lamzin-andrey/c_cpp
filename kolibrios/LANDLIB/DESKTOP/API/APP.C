@@ -3,7 +3,7 @@
 char* Appinit(int argc, char** argv) {
 	if (argc > 0) {
 		char* slf = argv[0];
-		slf = substr(slf, 2);
+		slf = substr(slf, 2, NULL);
 		int L = -1;
 		char** ls = explode("/", slf, &L);
 		unseta(ls, L - 1, &L);
@@ -11,6 +11,8 @@ char* Appinit(int argc, char** argv) {
 		free(ls);
 		LLD_APP_DIR = slf;
 	}
+	LLD_APP_ARGS = argv;
+	LLD_APP_ARGC = argc;
 }
 char* Appdir() {
 	return LLD_APP_DIR;
@@ -28,4 +30,8 @@ int sApp_dir(char* result, UINT size) {
 	strcpy(result, LLD_APP_DIR);
 
 	return 1;
+}
+
+void App_quit() {
+	_ksys_exit();
 }

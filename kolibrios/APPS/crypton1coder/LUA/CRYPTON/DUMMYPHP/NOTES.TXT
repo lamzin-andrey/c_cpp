@@ -1,0 +1,10 @@
+Отличия от PHP функций
+Функция	Отличия
+echo	Всегда пишет в echo.txt в режиме append, разделяет аргументы табуляцией
+file_get_contents	Нет поддержки контекста и смещения
+file_put_contents	Флаги передаются как строка "FILE_APPEND" или "a"
+str_replace	count передается через таблицу count[1], нет поддержки массивов
+strlen	Работает с байтами, а не с символами UTF-8
+substr	Работает с байтами, 0-based индексация как в PHP
+date	Поддерживает только базовый формат Y-m-d H:i:s
+strtotime	Только форматы YYYY-MM-DD и YYYY-MM-DD HH:MM:SS

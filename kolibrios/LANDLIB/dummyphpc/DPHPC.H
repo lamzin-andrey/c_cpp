@@ -50,3 +50,5 @@ void logInt(char* file, char* prefix, int n);
 void logFloat(char* file, char* prefix, double n);
 void logStr(char* file, char* prefix, char* str);
 BOOL es(char* s1, char* s2);
+void sleep(UINT s);
+BOOL unlink(char* name);
