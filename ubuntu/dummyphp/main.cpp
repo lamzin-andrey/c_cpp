@@ -27,5 +27,12 @@ int main(int argc, char** argv){
 	s = str_replace("hum", "RE", "dumhummy and hum was snippet and hummerhum");
 	cout << "s = " << s << "\n";
 	cout << "n = " << n << "\n";*/
+	
+	echo("\nTest scandir\n");
+	
+	vector<string> scanr = dphp::scandir(string("/home/andrey"));
+	for (long i = 0; i < count(scanr); i++) {
+		cout << scanr[i] << "\n";
+	}
 	return 0;
 }

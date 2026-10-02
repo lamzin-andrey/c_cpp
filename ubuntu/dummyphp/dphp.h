@@ -8,11 +8,17 @@
 #include <vector>
 #include <ctime>
 
+#include <dirent.h>
+
 
 static vector<string> dphpArgv;
 static int dphpArgc;
 
 long crand();
+int cppscandir(const char *dirp,
+            struct dirent ***namelist,
+            int (*filter)(const struct dirent *),
+            int (*compar)(const struct dirent **, const struct dirent **));
 
 
 namespace dphp {
@@ -66,6 +72,9 @@ namespace dphp {
 	string substr(string s, int start, int length);
 	int strpos(string haystack, string needle, unsigned int offset = 0);
 	vector<string> unset(vector<string> &a, unsigned int index);
+	int __scandir_cmp_alpha(const struct dirent** a, const struct dirent** b);
+	vector<string> scandir(string path);
+	
 }
 
 #endif

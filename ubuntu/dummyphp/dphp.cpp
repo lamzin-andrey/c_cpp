@@ -4,6 +4,14 @@ long crand() {
 	return (long)rand();
 }
 
+int cppscandir(const char *dirp,
+            struct dirent ***namelist,
+            int (*filter)(const struct dirent *),
+            int (*compar)(const struct dirent **, const struct dirent **)) {
+				
+	return scandir(dirp, namelist, filter, compar);
+}
+
 void dphp::__initRuntime(int argc, char** argv)
 {
 	dphpArgc = argc;
@@ -327,3 +335,33 @@ vector<string>  dphp::unset(vector<string> &a, unsigned int index) {
 	
 	return b;
 }
+
+// Компаратор для сортировки по алфавиту
+int dphp::__scandir_cmp_alpha(const struct dirent** a, const struct dirent** b)
+{
+    return strcmp((*a)->d_name, (*b)->d_name);
+}
+
+vector<string> dphp::scandir(string path) {
+	vector<string> r;
+	
+	
+	struct dirent** namelist = 0;
+    int n = scandir(path.c_str(), &namelist, NULL, __scandir_cmp_alpha);
+    if (n < 0) {
+		echo("n < 0!");
+        return r;
+    }
+
+    for (int i = 0; i < n; ++i) {
+        // std::cout << namelist[i]->d_name << std::endl;
+        string item(namelist[i]->d_name);
+        r.push_back(item);
+        free(namelist[i]);
+    }
+    free(namelist);
+    return r;
+	
+}
+
+
