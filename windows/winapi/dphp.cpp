@@ -1,5 +1,50 @@
 #include "dphp.h"
 
+long crand() {
+	return (long)rand();
+}
+
+/*int cppscandir(const char *dirp,
+            struct dirent ***namelist,
+            int (*filter)(const struct dirent *),
+            int (*compar)(const struct dirent **, const struct dirent **)) {
+				
+	return scandir(dirp, namelist, filter, compar);
+}*/
+
+void dphp::__initRuntime(int argc, char** argv)
+{
+	dphpArgc = argc;
+	for (int i = 0; i < argc; i++) {
+		dphpArgv.push_back( string(argv[i]) );
+	}
+}
+
+
+
+void dphp::echo(string s) {
+	cout << s << "\n";
+}
+int dphp::exec(string cmd, vector<string> &output) {
+	output.clear();
+	string name = dphpArgv[0];
+	vector<string> a = explode("/", name);
+	name = a[count(a) - 1];
+	string out = sys_get_temp_dir() + "/" + name + ".out";
+	cmd = cmd + " > " + out + " 2>" + sys_get_temp_dir() + "/" + name + ".err";
+	system(cmd.c_str());
+	if (file_exists(out)) {
+		string c = file_get_contents(out);
+		a = explode("\n",  c);
+		long sz = count(a);
+		for (long i = 0; i < sz; i++) {
+			output.push_back(a[i]);
+		}
+	}
+	
+	return 0;
+}
+
 bool dphp::file_exists(string filename) {
 	// #include <unistd.h>
 	return ( access( filename.c_str(), F_OK ) != -1 );
@@ -13,6 +58,14 @@ string dphp::file_get_contents(string file) {
 int dphp::file_put_contents(string file, string data, int mode) {
 	UtilsStd Lib;
 	return Lib.write(data, file, mode);
+}
+string dphp::sys_get_temp_dir() {
+	// TODO OS!
+	// return "/tmp";
+	char path[255];
+	GetTempPath(255, path);
+	string r(path);
+	return substr(r, 0, r.length() - 1);
 }
 
 string dphp::date(string fmt, long ts) {
@@ -65,6 +118,72 @@ string dphp::date(string fmt, long ts) {
 	}
 	return o;
 }
+long dphp::rand(long min, long max){
+	srand((long)time(NULL));
+	return (long)(((double)crand() / RAND_MAX) * (max - min) + min);
+}
+
+
+
+
+
+
+
+
+/*bool dphp::shuffle(vector<int> &a)
+{
+  long SZ, k, j;
+  int b;
+  
+  SZ = count(a) - 1;
+  for(j = 0; j <= SZ; j++){
+	k = dphp::rand(0, SZ);
+	if(k != j){
+	  b = a[j];
+	  a[j] = a[k];
+	  a[k] = b;
+	}
+  }
+  
+  return true;
+}
+
+bool dphp::shuffle(vector<long> &a)
+{
+  long SZ, k, j;
+  long b;
+  
+  SZ = count(a) - 1;
+  for(j = 0; j <= SZ; j++){
+	k = dphp::rand(0, SZ);
+	if(k != j){
+	  b = a[j];
+	  a[j] = a[k];
+	  a[k] = b;
+	}
+  }
+  
+  return true;
+}
+
+bool dphp::shuffle(vector<double> &a)
+{
+  long SZ, k, j;
+  double b;
+  
+  SZ = count(a) - 1;
+  for(j = 0; j <= SZ; j++){
+	k = dphp::rand(0, SZ);
+	if(k != j){
+	  b = a[j];
+	  a[j] = a[k];
+	  a[k] = b;
+	}
+  }
+  
+  return true;
+}*/
+
 string dphp::str_replace(string search, string replace, string subject)
 {
 	int n = 0;
@@ -117,6 +236,11 @@ string dphp::__str_replace(string search, string replace, string subject, int &c
 		}
 	}
 	return result;
+}
+
+string dphp::substr(string s, int start, int length)
+{
+	return s.substr(start, length);
 }
 
 /**
@@ -215,3 +339,41 @@ vector<string>  dphp::unset(vector<string> &a, unsigned int index) {
 	
 	return b;
 }
+
+// Компаратор для сортировки по алфавиту
+/*int dphp::__scandir_cmp_alpha(const struct dirent** a, const struct dirent** b)
+{
+    return strcmp((*a)->d_name, (*b)->d_name);
+}*/
+
+vector<string> dphp::scandir(string path) {
+	vector<string> r;
+	
+	_finddata_t fd;
+	path += "/*.*";
+	int st = _findfirst(path.c_str(), &fd);
+	
+	if (st != -1) {
+		string item(fd.name);
+		// echo("First is " + item + "\n");
+        r.push_back(item);
+	} else if (st == -1){
+		// echo("st is -1");
+	} else {
+		// echo("st is not 0");
+	}
+	
+	int st2 = st;
+	while (st != -1) {
+		st = _findnext(st2, &fd);
+		if (st != -1) {
+			string item2(fd.name);
+			// echo("Next is " + item2 + "\n");
+			r.push_back(item2);
+		}
+	}
+
+    return r;	
+}
+
+

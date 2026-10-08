@@ -158,8 +158,8 @@ int UtilsStd::pos(string substr, string s, unsigned int offset)
 			it = 0;
 		} else {
 			it++;
-			if (it >= subsz - 1) {
-				return (i - subsz);
+			if (it >= subsz) {
+				return (i - subsz) + 1;
 			}
 		}
 	}
@@ -407,7 +407,7 @@ int UtilsStd :: write(string s, string filename, int mode)
 	  //cout << "s = "<< Report <<'\n';
 //Вывод в файл
   ofstream t;
-  if (mode == 8) {
+  if (mode == 9) {
 	  t.open(filename.c_str(), ios:: out| ios::app );
   } else {
 	  t.open(filename.c_str(), ios:: out);
